@@ -1,0 +1,21 @@
+<div class="sidebar">
+    <h4 class="text-center py-3">DNBCnet</h4>
+    <a href="/user">Account List</a>
+    <a href="#">Wallet List</a>
+    <a href="#">E-Statements</a>
+    <a href="#">Transaction History</a>
+    <a href="#">Internal Transfer</a>
+    <a href="#">External Transfer</a>
+    <a href="#">Transfer History</a>
+    <a href="#">Incoming Payment</a>
+    <a href="#">Transaction Limit Setup</a>
+    <a href="#">Beneficiary</a>
+    <a href="#">Card List</a>
+    <a href="#">Request New Card</a>
+    <a href="#">Card Order History</a>
+    <a href="#">External Account</a>
+    <a href="#">Change Theme</a>
+    <a href="#">OTP Receiving Method</a>
+    <a href="#">Change Password</a>
+    <a href="#">Help</a>
+</div>
