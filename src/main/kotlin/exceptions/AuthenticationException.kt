@@ -1,4 +1,3 @@
 package com.example.exceptions
 
-class AuthenticationException {
-}
+class AuthenticationException(message: String = "Authentication Failed") : RuntimeException(message)

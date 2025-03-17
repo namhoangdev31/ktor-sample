@@ -2,9 +2,13 @@ package com.example.config
 
 import com.example.controllers.AuthController
 import com.example.controllers.authRoutes
+import com.example.dto.ErrorResponse
+import com.example.exceptions.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
+import io.ktor.server.plugins.NotFoundException
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.doublereceive.*
 import io.ktor.server.plugins.requestvalidation.*
@@ -30,6 +34,24 @@ fun Application.configureRouting() {
     install(StatusPages) {
         exception<Throwable> { call, cause ->
             call.respondText(text = "500: $cause", status = HttpStatusCode.InternalServerError)
+        }
+        exception<AuthenticationException> { call, cause ->
+            call.respond(
+                status = HttpStatusCode.Unauthorized,
+                message = ErrorResponse(
+                    statusMessage = HttpStatusCode.Unauthorized.description,
+                    error = cause.message ?: "Unauthorized access"
+                )
+            )
+        }
+        exception<NotFoundException> { call, cause ->
+            call.respond(
+                status = HttpStatusCode.NotFound,
+                message = ErrorResponse(
+                    statusMessage = HttpStatusCode.NotFound.description,
+                    error = cause.message ?: "Resource not found"
+                )
+            )
         }
     }
     install(Webjars) {

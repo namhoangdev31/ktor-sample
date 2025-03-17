@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.example.exceptions.AuthenticationException
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -14,19 +15,16 @@ class AuthController {
             val username = params["username"]
             val password = params["password"]
 
-            // Logic xác thực: ví dụ đơn giản
             if (username == "admin" && password == "1234") {
                 call.respondText("Login successful!")
             } else {
-                call.respondText("Invalid credentials", status = HttpStatusCode.Unauthorized)
+                throw AuthenticationException("Invalid username or password")
             }
         }catch (e: Exception) {
-            call.respondText("Error: ${e.message}", status = HttpStatusCode.InternalServerError)
+            throw AuthenticationException("Invalid username or password")
         }
-
     }
 
-    // Xử lý đăng ký
     suspend fun register(call: ApplicationCall) {
         val params = call.receiveParameters()
         val username = params["username"]
