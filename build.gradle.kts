@@ -43,7 +43,7 @@ dependencies {
     implementation("io.ktor:ktor-server-host-common")
     implementation("io.ktor:ktor-server-status-pages")
     implementation("io.ktor:ktor-server-webjars")
-    implementation("org.webjars:jquery:3.2.1")
+    implementation("org.webjars:jquery:3.5.0")
     implementation("io.ktor:ktor-server-caching-headers")
     implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-server-http-redirect")

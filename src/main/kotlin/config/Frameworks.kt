@@ -1,5 +1,6 @@
 package com.example.config
 
+import com.example.controllers.AuthController
 import io.ktor.server.application.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
@@ -9,6 +10,8 @@ fun Application.configureFrameworks() {
     install(Koin) {
         slf4jLogger()
         modules(module {
+            //register AuthController
+            single { AuthController() }
         })
     }
 }

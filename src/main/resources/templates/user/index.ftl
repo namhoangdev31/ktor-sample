@@ -8,7 +8,7 @@
         <#if data?? && data.items??>
             <#list data.items as item>
                 <li>
-                    <a href="/user/${item.id}">${item.name}</a>
+                    <a href="/user/detail?id=${item.id}&name=${item.name}">${item.name}</a>
                 </li>
             </#list>
         <#else>
