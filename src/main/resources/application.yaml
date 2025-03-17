@@ -17,11 +17,14 @@ jwt:
   domain: "https://jwt-provider-domain/"
   audience: "jwt-audience"
   realm: "ktor sample app"
+  issuer: "https://jwt-provider-domain/"
+  secret: "your-secret-key"
 postgres:
-  url: "postgres://default:yP1LTuYJHsC8@ep-autumn-frost-a1050ajn-pooler.ap-southeast-1.aws.neon.tech/verceldb?sslmode=require"
+  url: "jdbc:postgresql://ep-autumn-frost-a1050ajn-pooler.ap-southeast-1.aws.neon.tech/verceldb?sslmode=require"
   user: default
   password:
     passwordktor: yP1LTuYJHsC8
+  driver: org.postgresql.Driver
   kafka:
     schema.registry.url:
       - "SCHEMA_REGISTRY_URL"

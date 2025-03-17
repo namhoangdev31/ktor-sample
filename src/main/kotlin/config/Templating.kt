@@ -1,10 +1,12 @@
 package com.example.config
 
-import com.example.utils.AppString
+import com.example.utils.*
 import freemarker.cache.*
 import freemarker.core.HTMLOutputFormat
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
+import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -13,19 +15,18 @@ fun Application.configureTemplating() {
         val userTemplates = ClassTemplateLoader(this::class.java.classLoader, "templates/user")
         val sharedTemplates = ClassTemplateLoader(this::class.java.classLoader, "templates/shared")
         val defaultTemplates = ClassTemplateLoader(this::class.java.classLoader, "templates")
-        val loginTemplate = ClassTemplateLoader(this::class.java.classLoader, "templates/login")
+        val loginTemplate = ClassTemplateLoader(this::class.java.classLoader, "templates/auth")
 
-        templateLoader = MultiTemplateLoader(arrayOf(defaultTemplates, userTemplates, sharedTemplates))
+        templateLoader = MultiTemplateLoader(arrayOf(defaultTemplates, userTemplates, sharedTemplates , loginTemplate))
         outputFormat = HTMLOutputFormat.INSTANCE
     }
-
     routing {
         get("/") {
             call.respond(
                 FreeMarkerContent("index.ftl", mapOf("title" to "Home"))
             )
         }
-        get("/${AppString.UserTemplate}") {
+        get("/${AppRoute.User}") {
             val users = listOf(
                 mapOf("id" to 1, "name" to "User 1"),
                 mapOf("id" to 2, "name" to "User 2"),
@@ -41,17 +42,23 @@ fun Application.configureTemplating() {
                 )
             )
         }
-        get("/${AppString.UserTemplate}/{id}") {
+        get("/${AppRoute.User}/{id}") {
             val userId = call.parameters["id"]
             call.respond(
                 FreeMarkerContent("${AppString.UserTemplate}/detail.ftl", mapOf("title" to "User Detail", "userId" to userId))
             )
         }
-        get("/${AppString.LoginTemplate}") {
+        get("/${AppRoute.Login}") {
             call.respond(FreeMarkerContent("${AppString.LoginTemplate}/index.ftl", mapOf("title" to "Login")))
         }
 
-        get("/${AppString.UserTemplate}/detail") {
+        get("/${AppRoute.Register}") {
+            call.respond(
+                FreeMarkerContent("${AppString.LoginTemplate}/register.ftl", mapOf("title" to "Create User"))
+            )
+        }
+
+        get("/${AppRoute.User}/detail") {
             val userId = call.request.queryParameters["id"]
             val userName = call.request.queryParameters["name"]
             call.respond(

@@ -1,6 +1,7 @@
 package com.example.config
 
 
+import com.example.dao.UserTable
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -43,14 +44,16 @@ import io.ktor.server.webjars.*
 import io.ktor.server.websocket.*
 import io.ktor.sse.*
 import io.ktor.websocket.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
 import java.sql.DriverManager
 import org.slf4j.event.*
 
 fun Application.configureDatabases() {
-    val dbConnection: Connection = connectToPostgres(embedded = true)
-
-
+    DatabaseFactory.init(environment)
 }
 
 /**
@@ -74,21 +77,24 @@ fun Application.configureDatabases() {
  * @return [Connection] that represent connection to the database. Please, don't forget to close this connection when
  * your application shuts down by calling [Connection.close]
  * */
-fun Application.connectToPostgres(embedded: Boolean): Connection {
-    Class.forName("org.postgresql.Driver")
-    if (embedded) {
-        log.info("Using embedded H2 database for testing; replace this flag to use postgres")
-        return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "root", "")
-    } else {
-        val url = environment.config.property("postgres.url").getString()
-        log.info("Connecting to postgres database at $url")
-        val user = environment.config.property("postgres.user").getString()
-        val password = environment.config.property("postgres.password.passwordktor").getString()
 
-        return DriverManager.getConnection(url, user, password)
+object DatabaseFactory {
+    fun init(environment: ApplicationEnvironment) {
+        Database.connect(
+            url = environment.config.property("postgres.url").getString(),
+            driver = environment.config.property("postgres.driver").getString(),
+            user = environment.config.property("postgres.user").getString(),
+            password = environment.config.property("postgres.password.passwordktor").getString()
+        )
+
+        transaction {
+            SchemaUtils.createMissingTablesAndColumns(UserTable)
+        }
     }
 }
 
+suspend fun <T> dbQuery(block: suspend () -> T): T =
+    newSuspendedTransaction { block() }
 
 //    install(Kafka) {
 //        schemaRegistryUrl = "my.schemaRegistryUrl"

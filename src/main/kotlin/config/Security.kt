@@ -87,7 +87,7 @@ class UserSession(accessToken: String)
 data class MySession(val count: Int = 0)
 //routing {
 ////        authenticate("auth-oauth-google") {
-////            get("login") {
+////            get("auth") {
 ////                call.respondRedirect("/callback")
 ////            }
 ////
