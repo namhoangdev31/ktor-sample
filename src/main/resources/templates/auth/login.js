@@ -11,10 +11,18 @@ document.addEventListener("DOMContentLoaded", () => {
     loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(loginForm);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
         try {
             const response = await fetch(loginForm.action, {
                 method: "POST",
-                body: formData,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             });
 
             if (response.ok) {

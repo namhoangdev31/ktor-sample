@@ -3,6 +3,8 @@ package com.example.controllers
 import com.example.dto.AuthRequest
 import com.example.exceptions.AuthenticationException
 import com.example.repositories.AuthRepository
+import com.example.utils.ApiRoute
+import com.example.utils.AppRoute
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -23,8 +25,8 @@ class AuthController() {
     }
 
     suspend fun register(call: ApplicationCall) {
-        val postParam = call.receive<AuthRequest>()
         try {
+            val postParam = call.receive<AuthRequest>()
             val response = authRepository.register(postParam)
             call.respond(response)
         } catch (e: AuthenticationException) {
@@ -35,16 +37,14 @@ class AuthController() {
 
 
 fun Route.authRoutes(authController: AuthController) {
-    route("/v1/auth") {
-        get("/login") {
+    route(ApiRoute.AuthPrefix) {
+        get("/${AppRoute.Login}") {
             call.respondText("Display auth page", ContentType.Text.Html)
         }
-        // POST /auth/auth: xử lý đăng nhập
-        post("/login") {
+        post("/${AppRoute.Login}") {
             authController.login(call)
         }
-        // POST /auth/register: xử lý đăng ký
-        post("/register") {
+        post("/${AppRoute.Register}") {
             authController.register(call)
         }
     }

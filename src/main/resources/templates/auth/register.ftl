@@ -16,8 +16,8 @@
             <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required/>
         </div>
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="admin" name="admin">
-            <label class="form-check-label" for="admin">Admin</label>
+            <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
+            <label class="form-check-label" for="isAdmin">Admin</label>
         </div>
         <div class="d-grid">
             <button type="submit" class="btn btn-primary">Login</button>

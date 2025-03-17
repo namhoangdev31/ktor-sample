@@ -68,7 +68,7 @@ fun Application.configureSecurity() {
     }
 
     intercept(ApplicationCallPipeline.Call) {
-        if (!call.request.uri.startsWith("/public") && !call.request.uri.startsWith("/auth") &&
+        if (!call.request.uri.startsWith("/public") && !call.request.uri.startsWith("/v1/auth") &&
             call.request.httpMethod in listOf(HttpMethod.Post, HttpMethod.Put, HttpMethod.Delete )) {
             val headerToken = call.request.headers["X-CSRF-Token"]
             val session = call.sessions.get<UserSession>()

@@ -11,3 +11,8 @@ object AppRoute {
     const val User = "user"
     const val Register = "register"
 }
+
+object ApiRoute {
+    const val AuthPrefix = "/v1/auth"
+    const val UserPrefix = "/v1/user"
+}

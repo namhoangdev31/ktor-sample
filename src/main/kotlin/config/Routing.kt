@@ -61,7 +61,7 @@ fun Application.configureRouting() {
         }
     }
     install(Webjars) {
-        path = "/webjars" //defaults to /webjars
+        path = "/webjars"
     }
     routing {
         authRoutes(AuthController())

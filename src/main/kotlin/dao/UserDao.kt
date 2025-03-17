@@ -20,8 +20,8 @@ object UserTable : IntIdTable("users") {
     val updatedAt = datetime("updated_at").nullable()
 }
 
-class UserDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserDAO>(UserTable)
+class UserDTO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserDTO>(UserTable)
 
     var username by UserTable.username
     var password by UserTable.password
@@ -54,14 +54,14 @@ interface UserDao {
 
 class UserDaoImpl : UserDao {
     override suspend fun findUserByUsername(username: String): UserEntity? = dbQuery {
-        UserDAO.find { UserTable.username eq username }
+        UserDTO.find { UserTable.username eq username }
             .singleOrNull()?.toUserEntity()
     }
 
     override suspend fun insertUser(user: UserEntity): UserEntity = dbQuery {
         val currentTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
 
-        val newUser = UserDAO.new {
+        val newUser = UserDTO.new {
             this.username = user.username
             this.password = user.password
             this.email = user.email
@@ -72,17 +72,17 @@ class UserDaoImpl : UserDao {
     }
 
     override suspend fun deleteUser(id: Int): Boolean = dbQuery {
-        UserDAO.findById(id)?.let {
+        UserDTO.findById(id)?.let {
             it.delete()
             true
         } == true
     }
 
     override suspend fun getAll(): List<UserEntity> = dbQuery {
-        UserDAO.all().map { it.toUserEntity() }
+        UserDTO.all().map { it.toUserEntity() }
     }
 
     override suspend fun getAllWithCondition(condition: (UserTable) -> Op<Boolean>): List<UserEntity> {
-        return UserDAO.find { condition(UserTable) }.map { it.toUserEntity() }
+        return UserDTO.find { condition(UserTable) }.map { it.toUserEntity() }
     }
 }
