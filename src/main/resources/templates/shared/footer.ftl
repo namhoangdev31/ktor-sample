@@ -1,5 +1,5 @@
 <footer class="footer">
-    &copy; 1997 - 2025 DNBC Financial Group
+    &copy; CopyRight 2025
 </footer>
 
 <script>
