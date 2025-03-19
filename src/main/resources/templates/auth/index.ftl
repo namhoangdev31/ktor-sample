@@ -21,28 +21,31 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required/>
                 </div>
-                <div class="justify-content-between flex-row d-flex w-100 row-gap-md-4">
-                    <div class="mb-3 form-check">
+                <div class="justify-content-between flex-row d-flex w-100 row-gap-md-4 align-items-center mb-3">
+                    <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
-                        <label class="form-check-label" for="isAdmin">Remember for 30 days</label>
+                        <label class="form-check-label text-label-auth" for="isAdmin">Remember for 30 days</label>
                     </div>
-                    <a href="/register" class="text-decoration-none">Forgot password</a>
+                    <a href="/register" class="text-decoration text-label-auth">Forgot password</a>
                 </div>
 
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
-                <div class="d-grid mt-4" data-type="standard">
+                <div class="d-grid mt-2" data-type="standard">
                     <button class="google-btn">
                         <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo">
                         <span>Continue with Google</span>
                     </button>
                 </div>
             </form>
+            <div>
+                <p class="text-center mt-3 small align-items-center">Don't have an account? <a href="/register" class="text-decoration">Sign up</a></p>
+            </div>
         </div>
     </div>
 </main>
-<#include "../shared/footer.ftl">
+<#--<#include "../shared/footer.ftl">-->
 <script>
     <#include "login.js">
 </script>
