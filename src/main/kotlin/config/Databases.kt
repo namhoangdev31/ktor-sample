@@ -2,7 +2,7 @@ package com.example.config
 
 import com.example.table.RegionTable
 import com.example.table.RoleTable
-import com.example.table.UserAccount
+import com.example.table.UserAccountTable
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -80,38 +80,43 @@ fun Application.configureDatabases() {
  * your application shuts down by calling [Connection.close]
  * */
 object DatabaseFactory {
+    lateinit var dbMain: Database
+
     fun init(environment: ApplicationEnvironment) {
-        Database.connect(
+        dbMain = Database.connect(
             url = environment.config.property("postgres.url").getString(),
             driver = environment.config.property("postgres.driver").getString(),
             user = environment.config.property("postgres.user.username").getString(),
             password = environment.config.property("postgres.password.passwordktor").getString()
         )
-
-        transaction {
+        transaction(dbMain) {
             SchemaUtils.createMissingTablesAndColumns(RegionTable)
         }
     }
 }
 
 object DatabaseAuthFactory {
+    lateinit var dbAuth: Database
+
     fun init(environment: ApplicationEnvironment) {
-        Database.connect(
-            url = "jdbc:postgresql://${environment.config.property("postgres.host").getString()}:${environment.config.property("postgres.port").getString()}/${environment.config.property("postgres.database").getString()}",
+        dbAuth = Database.connect(
+            url = "jdbc:postgresql://${environment.config.property("postgres.host").getString()}:${environment.config.property("postgres.port").getString()}/${environment.config.property("postgres.database").getString()}?prepareThreshold=0",
             driver = environment.config.property("postgres.driver").getString(),
             user = environment.config.property("postgres.user.usernameauth").getString(),
             password = environment.config.property("postgres.password.passwordauth").getString()
         )
-
-        transaction {
-            SchemaUtils.createMissingTablesAndColumns(UserAccount)
+        transaction(dbAuth) {
+            SchemaUtils.createMissingTablesAndColumns(UserAccountTable)
             SchemaUtils.createMissingTablesAndColumns(RoleTable)
         }
     }
 }
 
-suspend fun <T> dbQuery(block: suspend () -> T): T =
-    newSuspendedTransaction { block() }
+/**
+ * Executes a suspended transaction on the specified database.
+ */
+suspend fun <T> dbQuery(db: Database, block: suspend () -> T): T =
+    newSuspendedTransaction(db = db) { block() }
 
 
 //    install(Kafka) {

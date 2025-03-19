@@ -12,6 +12,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.apache.kafka.clients.admin.Admin
 import org.koin.java.KoinJavaComponent.inject
 import org.mindrot.jbcrypt.BCrypt
+import java.util.UUID.randomUUID
 
 interface AuthRepository {
     suspend fun login(postParam: AuthRequest): AuthResponse<UserEntity>
@@ -55,6 +56,7 @@ class AuthRepositoryImpl(
         val hashedPassword = BCrypt.hashpw(postParam.password, BCrypt.gensalt())
 
         val newUser = UserEntity(
+            uuid = randomUUID().toString(),
             username = postParam.username,
             passwordHash = hashedPassword,
             email = postParam.email ?: "",

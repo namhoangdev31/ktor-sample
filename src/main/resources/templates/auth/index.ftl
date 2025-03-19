@@ -24,9 +24,9 @@
                 <div class="justify-content-between flex-row d-flex w-100 row-gap-md-4 align-items-center mb-3">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
-                        <label class="form-check-label text-label-auth" for="isAdmin">Remember for 30 days</label>
+                        <label class="form-check-label small" for="isAdmin">Remember for 30 days</label>
                     </div>
-                    <a href="/register" class="text-decoration text-label-auth">Forgot password</a>
+                    <a href="/register" class="text-decoration small">Forgot password</a>
                 </div>
 
                 <div class="d-grid">

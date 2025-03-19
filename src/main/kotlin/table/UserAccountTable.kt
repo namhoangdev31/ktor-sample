@@ -4,7 +4,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.CurrentDateTime
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
-object UserAccount : IntIdTable("user_account") {
+object UserAccountTable : IntIdTable("user_account") {
+    val uuid = varchar("uuid", 36).uniqueIndex()
     val username = varchar("username", 100).uniqueIndex()
     val email = varchar("email", 150).uniqueIndex()
     val passwordHash = varchar("password_hash", 255)

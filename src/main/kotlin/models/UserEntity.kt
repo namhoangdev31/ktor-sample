@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 @Serializable
 data class UserEntity(
     val id: Int? = null,
+    val uuid: String,
     val username: String,
     val email: String,
     val fullName: String? = null,
