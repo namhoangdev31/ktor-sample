@@ -33,7 +33,7 @@
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
                 <div class="d-grid mt-2" data-type="standard">
-                    <button class="google-btn">
+                    <button class="google-btn" type="">
                         <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo">
                         <span>Continue with Google</span>
                     </button>
