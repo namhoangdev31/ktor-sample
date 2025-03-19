@@ -560,3 +560,107 @@ CREATE TABLE misa_export (
                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                              CONSTRAINT pk_misa_export PRIMARY KEY (export_id)
 ) ENGINE=InnoDB;
+
+-- ===================================================================
+-- DATABASE AUTHENTICATION
+-- ===================================================================
+-- Tạo cơ sở dữ liệu cho hệ thống authentication và quản lý user
+CREATE DATABASE IF NOT EXISTS auth_management;
+USE auth_management;
+
+-- ============================================================================
+-- BẢNG user_account: Lưu trữ thông tin người dùng
+-- ============================================================================
+CREATE TABLE user_account (
+                              user_id INT AUTO_INCREMENT,
+                              username VARCHAR(100) NOT NULL UNIQUE,
+                              email VARCHAR(150) NOT NULL UNIQUE,
+                              password_hash VARCHAR(255) NOT NULL,
+                              full_name VARCHAR(150),
+                              is_active BOOLEAN DEFAULT TRUE,
+                              last_login DATETIME,
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              CONSTRAINT pk_user_account PRIMARY KEY (user_id)
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- BẢNG role: Lưu trữ thông tin vai trò (role) của người dùng
+-- ============================================================================
+CREATE TABLE role (
+                      role_id INT AUTO_INCREMENT,
+                      role_name VARCHAR(50) NOT NULL UNIQUE,
+                      description TEXT,
+                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                      CONSTRAINT pk_role PRIMARY KEY (role_id)
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- BẢNG user_role: Liên kết nhiều-nhiều giữa user_account và role
+-- ============================================================================
+CREATE TABLE user_role (
+                           user_id INT NOT NULL,
+                           role_id INT NOT NULL,
+                           assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
+                           CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES user_account(user_id),
+                           CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES role(role_id)
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- BẢNG auth_token: Lưu trữ token đăng nhập (access token, refresh token)
+-- ============================================================================
+CREATE TABLE auth_token (
+                            token_id INT AUTO_INCREMENT,
+                            user_id INT NOT NULL,
+                            access_token VARCHAR(255) NOT NULL,
+                            refresh_token VARCHAR(255),
+                            issued_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            expires_at DATETIME NOT NULL,
+                            is_revoked BOOLEAN DEFAULT FALSE,
+                            CONSTRAINT pk_auth_token PRIMARY KEY (token_id),
+                            CONSTRAINT fk_auth_token_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- BẢNG password_reset: Ghi nhận yêu cầu đặt lại mật khẩu
+-- ============================================================================
+CREATE TABLE password_reset (
+                                reset_id INT AUTO_INCREMENT,
+                                user_id INT NOT NULL,
+                                reset_token VARCHAR(255) NOT NULL,
+                                requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                expires_at DATETIME NOT NULL,
+                                used BOOLEAN DEFAULT FALSE,
+                                CONSTRAINT pk_password_reset PRIMARY KEY (reset_id),
+                                CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- BẢNG login_attempt: Ghi lại các lần đăng nhập (để theo dõi và phát hiện bất thường)
+-- ============================================================================
+CREATE TABLE login_attempt (
+                               attempt_id INT AUTO_INCREMENT,
+                               user_id INT,         -- có thể null nếu username không tồn tại
+                               username VARCHAR(100),
+                               attempt_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+                               ip_address VARCHAR(45),
+                               success BOOLEAN,
+                               CONSTRAINT pk_login_attempt PRIMARY KEY (attempt_id)
+) ENGINE=InnoDB;
+-- ============================================================================
+-- BẢNG user_session: Lưu trữ thông tin phiên làm việc của người dùng
+-- ============================================================================
+CREATE TABLE user_session (
+                              session_id INT AUTO_INCREMENT,
+                              user_id INT NOT NULL,
+                              session_token VARCHAR(255) NOT NULL,
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                              last_activity DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              expires_at DATETIME,
+                              ip_address VARCHAR(45),
+                              user_agent VARCHAR(255),
+                              is_active BOOLEAN DEFAULT TRUE,
+                              CONSTRAINT pk_user_session PRIMARY KEY (session_id),
+                              CONSTRAINT fk_user_session_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
