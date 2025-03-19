@@ -15,6 +15,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
+import io.ktor.server.plugins.compression.*
 
 fun Application.configureHTTP() {
     install(CachingHeaders) {
@@ -48,6 +49,17 @@ fun Application.configureHTTP() {
             invalidateAt = 10.seconds
         }
     }
+
+    install(Compression) {
+        gzip {
+            priority = 1.0
+        }
+        deflate {
+            priority = 10.0
+            minimumSize(1024)
+        }
+    }
+
     routing {
         swaggerUI(path = "openapi")
     }

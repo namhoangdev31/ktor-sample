@@ -48,6 +48,7 @@ import io.ktor.websocket.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
 import java.sql.DriverManager
@@ -117,6 +118,9 @@ object DatabaseAuthFactory {
  */
 suspend fun <T> dbQuery(db: Database, block: suspend () -> T): T =
     newSuspendedTransaction(db = db) { block() }
+
+suspend fun <T> asyncDbQuery(db: Database, block: suspend () -> T): T =
+    suspendedTransactionAsync(db = db) { block() }.await()
 
 
 //    install(Kafka) {
