@@ -17,7 +17,6 @@ class AuthService(private val environment: ApplicationEnvironment) {
             .withAudience(jwtAudience)
             .withIssuer(jwtIssuer)
             .withClaim("username", user.username)
-            .withClaim("isAdmin", user.isAdmin)
             .withExpiresAt(Date(System.currentTimeMillis() + 3600000)) // Token expires in 1 hour
             .sign(Algorithm.HMAC256(jwtSecret))
     }

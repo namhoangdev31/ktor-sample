@@ -21,9 +21,15 @@ jwt:
   secret: "your-secret-key"
 postgres:
   url: "jdbc:postgresql://ep-autumn-frost-a1050ajn-pooler.ap-southeast-1.aws.neon.tech/verceldb?sslmode=require"
-  user: default
+  host: aws-0-ap-southeast-1.pooler.supabase.com
+  port: 6543
+  database: postgres
+  user:
+    usernameauth: postgres.vxbubthpupyrgowruzcv
+    username: default
   password:
     passwordktor: yP1LTuYJHsC8
+    passwordauth: OI4pFPNlb08FSBtR
   driver: org.postgresql.Driver
   kafka:
     schema.registry.url:

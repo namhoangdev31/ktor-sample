@@ -28,7 +28,7 @@ class AuthRepositoryImpl(
             ?: throw AuthenticationException("Invalid username or password")
 
         // Validate password
-        if (!BCrypt.checkpw(postParam.password, user.password)) {
+        if (!BCrypt.checkpw(postParam.password, user.passwordHash)) {
             throw AuthenticationException("Invalid username or password")
         }
 
@@ -49,16 +49,16 @@ class AuthRepositoryImpl(
             throw AuthenticationException("Username already exists")
         }
 
-        val currentTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+        val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
         // Hash the password
         val hashedPassword = BCrypt.hashpw(postParam.password, BCrypt.gensalt())
 
         val newUser = UserEntity(
             username = postParam.username,
-            password = hashedPassword,
+            passwordHash = hashedPassword,
             email = postParam.email ?: "",
-            isAdmin = postParam.isAdmin,
+            isActive = postParam.isActive,
             createdAt = currentTime,
         )
 

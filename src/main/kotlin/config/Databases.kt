@@ -1,7 +1,8 @@
 package com.example.config
 
-
-import com.example.dao.UserTable
+import com.example.table.RegionTable
+import com.example.table.RoleTable
+import com.example.table.UserAccount
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -54,6 +55,7 @@ import org.slf4j.event.*
 
 fun Application.configureDatabases() {
     DatabaseFactory.init(environment)
+    DatabaseAuthFactory.init(environment)
 }
 
 /**
@@ -77,24 +79,40 @@ fun Application.configureDatabases() {
  * @return [Connection] that represent connection to the database. Please, don't forget to close this connection when
  * your application shuts down by calling [Connection.close]
  * */
-
 object DatabaseFactory {
     fun init(environment: ApplicationEnvironment) {
         Database.connect(
             url = environment.config.property("postgres.url").getString(),
             driver = environment.config.property("postgres.driver").getString(),
-            user = environment.config.property("postgres.user").getString(),
+            user = environment.config.property("postgres.user.username").getString(),
             password = environment.config.property("postgres.password.passwordktor").getString()
         )
 
         transaction {
-            SchemaUtils.createMissingTablesAndColumns(UserTable)
+            SchemaUtils.createMissingTablesAndColumns(RegionTable)
+        }
+    }
+}
+
+object DatabaseAuthFactory {
+    fun init(environment: ApplicationEnvironment) {
+        Database.connect(
+            url = "jdbc:postgresql://${environment.config.property("postgres.host").getString()}:${environment.config.property("postgres.port").getString()}/${environment.config.property("postgres.database").getString()}",
+            driver = environment.config.property("postgres.driver").getString(),
+            user = environment.config.property("postgres.user.usernameauth").getString(),
+            password = environment.config.property("postgres.password.passwordauth").getString()
+        )
+
+        transaction {
+            SchemaUtils.createMissingTablesAndColumns(UserAccount)
+            SchemaUtils.createMissingTablesAndColumns(RoleTable)
         }
     }
 }
 
 suspend fun <T> dbQuery(block: suspend () -> T): T =
     newSuspendedTransaction { block() }
+
 
 //    install(Kafka) {
 //        schemaRegistryUrl = "my.schemaRegistryUrl"

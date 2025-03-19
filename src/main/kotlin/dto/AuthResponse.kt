@@ -14,5 +14,5 @@ data class AuthRequest(
     val username: String,
     val password: String,
     val email: String? = null,
-    val isAdmin: Boolean = false
+    val isActive: Boolean = false
 )

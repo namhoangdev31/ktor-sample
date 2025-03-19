@@ -10,9 +10,10 @@ data class UserEntity(
     val id: Int? = null,
     val username: String,
     val email: String,
-    val refreshToken: String? = null,
-    val password: String,
-    val isAdmin: Boolean = false,
+    val fullName: String? = null,
+    val passwordHash: String,
+    val isActive: Boolean = false,
+    val lastLogin: LocalDateTime? = null,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime? = null
 )

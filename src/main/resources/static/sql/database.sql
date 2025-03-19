@@ -211,6 +211,7 @@ CREATE TABLE role (
                       role_id INT AUTO_INCREMENT,
                       role_name VARCHAR(50) NOT NULL,
                       description TEXT,
+                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                       CONSTRAINT pk_role PRIMARY KEY (role_id)
 ) ENGINE=InnoDB;
 
