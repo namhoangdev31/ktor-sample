@@ -1,6 +1,115 @@
 -- ===================================================================
--- BẢNG CẤU HÌNH ĐỊA LÝ & KHU VỰC
+-- TẠO DATABASE AUTH MANAGEMENT
 -- ===================================================================
+CREATE DATABASE IF NOT EXISTS auth_management;
+USE auth_management;
+
+-- -------------------------------
+-- BẢNG user_account: Thông tin người dùng
+-- -------------------------------
+CREATE TABLE user_account (
+                              user_id INT AUTO_INCREMENT,
+                              username VARCHAR(100) NOT NULL UNIQUE,
+                              email VARCHAR(150) NOT NULL UNIQUE,
+                              password_hash VARCHAR(255) NOT NULL,
+                              full_name VARCHAR(150),
+                              is_active BOOLEAN DEFAULT TRUE,
+                              last_login DATETIME,
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              CONSTRAINT pk_user_account PRIMARY KEY (user_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG role: Vai trò người dùng
+-- -------------------------------
+CREATE TABLE role (
+                      role_id INT AUTO_INCREMENT,
+                      role_name VARCHAR(50) NOT NULL UNIQUE,
+                      description TEXT,
+                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                      CONSTRAINT pk_role PRIMARY KEY (role_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG user_role: Liên kết user và role (nhiều - nhiều)
+-- -------------------------------
+CREATE TABLE user_role (
+                           user_id INT NOT NULL,
+                           role_id INT NOT NULL,
+                           assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
+                           CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES user_account(user_id),
+                           CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES role(role_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG auth_token: Quản lý token đăng nhập
+-- -------------------------------
+CREATE TABLE auth_token (
+                            token_id INT AUTO_INCREMENT,
+                            user_id INT NOT NULL,
+                            access_token VARCHAR(255) NOT NULL,
+                            refresh_token VARCHAR(255),
+                            issued_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            expires_at DATETIME NOT NULL,
+                            is_revoked BOOLEAN DEFAULT FALSE,
+                            CONSTRAINT pk_auth_token PRIMARY KEY (token_id),
+                            CONSTRAINT fk_auth_token_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG password_reset: Yêu cầu đặt lại mật khẩu
+-- -------------------------------
+CREATE TABLE password_reset (
+                                reset_id INT AUTO_INCREMENT,
+                                user_id INT NOT NULL,
+                                reset_token VARCHAR(255) NOT NULL,
+                                requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                expires_at DATETIME NOT NULL,
+                                used BOOLEAN DEFAULT FALSE,
+                                CONSTRAINT pk_password_reset PRIMARY KEY (reset_id),
+                                CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG login_attempt: Lịch sử đăng nhập
+-- -------------------------------
+CREATE TABLE login_attempt (
+                               attempt_id INT AUTO_INCREMENT,
+                               user_id INT,
+                               username VARCHAR(100),
+                               attempt_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+                               ip_address VARCHAR(45),
+                               success BOOLEAN,
+                               CONSTRAINT pk_login_attempt PRIMARY KEY (attempt_id)
+) ENGINE=InnoDB;
+
+-- -------------------------------
+-- BẢNG user_session: Quản lý phiên làm việc
+-- -------------------------------
+CREATE TABLE user_session (
+                              session_id INT AUTO_INCREMENT,
+                              user_id INT NOT NULL,
+                              session_token VARCHAR(255) NOT NULL,
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                              last_activity DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              expires_at DATETIME,
+                              ip_address VARCHAR(45),
+                              user_agent VARCHAR(255),
+                              is_active BOOLEAN DEFAULT TRUE,
+                              CONSTRAINT pk_user_session PRIMARY KEY (session_id),
+                              CONSTRAINT fk_user_session_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+) ENGINE=InnoDB;
+-- ===================================================================
+-- TẠO DATABASE INVENTORY MANAGEMENT
+-- ===================================================================
+CREATE DATABASE IF NOT EXISTS inventory_management;
+USE inventory_management;
+
+-- -------------------------
+-- BẢNG CẤU HÌNH ĐỊA LÝ & KHU VỰC
+-- -------------------------
 CREATE TABLE region (
                         region_id INT AUTO_INCREMENT,
                         region_name VARCHAR(100) NOT NULL,
@@ -19,9 +128,9 @@ CREATE TABLE location (
                           CONSTRAINT fk_location_region FOREIGN KEY (region_id) REFERENCES region(region_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG KHO HÀNG – MỖI KHO THUỘC 1 VỊ TRÍ CỤ THỂ
--- ===================================================================
+-- -------------------------
+-- BẢNG KHO HÀNG – MỖI KHO THUỘC 1 VỊ TRÍ
+-- -------------------------
 CREATE TABLE warehouse (
                            warehouse_id INT AUTO_INCREMENT,
                            location_id INT NOT NULL,
@@ -32,9 +141,9 @@ CREATE TABLE warehouse (
                            CONSTRAINT fk_warehouse_location FOREIGN KEY (location_id) REFERENCES location(location_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
+-- -------------------------
 -- BẢNG DANH MỤC, SẢN PHẨM & LÔ HÀNG
--- ===================================================================
+-- -------------------------
 CREATE TABLE category (
                           category_id INT AUTO_INCREMENT,
                           category_name VARCHAR(100) NOT NULL,
@@ -68,9 +177,9 @@ CREATE TABLE product_lot (
                              CONSTRAINT fk_product_lot_product FOREIGN KEY (product_id) REFERENCES product(product_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
+-- -------------------------
 -- BẢNG NHÀ CUNG CẤP & KHÁCH HÀNG
--- ===================================================================
+-- -------------------------
 CREATE TABLE supplier (
                           supplier_id INT AUTO_INCREMENT,
                           supplier_name VARCHAR(150) NOT NULL,
@@ -95,9 +204,9 @@ CREATE TABLE customer (
                           CONSTRAINT pk_customer PRIMARY KEY (customer_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
+-- -------------------------
 -- BẢNG NHÂN SỰ & VAI TRÒ
--- ===================================================================
+-- -------------------------
 CREATE TABLE role (
                       role_id INT AUTO_INCREMENT,
                       role_name VARCHAR(50) NOT NULL,
@@ -117,9 +226,9 @@ CREATE TABLE employee (
                           CONSTRAINT fk_employee_role FOREIGN KEY (role_id) REFERENCES role(role_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
+-- -------------------------
 -- BẢNG TỒN KHO
--- ===================================================================
+-- -------------------------
 CREATE TABLE inventory (
                            inventory_id INT AUTO_INCREMENT,
                            product_id INT NOT NULL,
@@ -136,18 +245,18 @@ CREATE TABLE inventory (
     PARTITION BY HASH(warehouse_id)
         PARTITIONS 8;
 
--- ===================================================================
+-- -------------------------
 -- BẢNG GIAO DỊCH TỒN KHO
--- ===================================================================
+-- -------------------------
 CREATE TABLE inventory_transaction (
                                        transaction_id BIGINT AUTO_INCREMENT,
                                        transaction_type ENUM('purchase','sale','transfer','adjustment','return') NOT NULL,
-                                       reference_id INT, -- tham chiếu đến ID của đơn hàng, chuyển kho, v.v.
+                                       reference_id INT,
                                        product_id INT NOT NULL,
                                        warehouse_id INT NOT NULL,
                                        quantity INT NOT NULL,
                                        transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                       created_by INT,  -- employee_id thực hiện giao dịch
+                                       created_by INT,
                                        CONSTRAINT pk_inventory_transaction PRIMARY KEY (transaction_id),
                                        CONSTRAINT fk_it_product FOREIGN KEY (product_id) REFERENCES product(product_id),
                                        CONSTRAINT fk_it_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id),
@@ -161,9 +270,9 @@ CREATE TABLE inventory_transaction (
         PARTITION p_future VALUES LESS THAN MAXVALUE
         );
 
--- ===================================================================
--- BẢNG ĐƠN HÀNG & THANH TOÁN (MUA, BÁN, GIAO, TRẢ, CHUYỂN KHO)
--- ===================================================================
+-- -------------------------
+-- BẢNG ĐƠN HÀNG & THANH TOÁN
+-- -------------------------
 -- Purchase Order
 CREATE TABLE purchase_order (
                                 purchase_order_id INT AUTO_INCREMENT,
@@ -297,9 +406,10 @@ CREATE TABLE stock_transfer (
                                 CONSTRAINT fk_st_to_warehouse FOREIGN KEY (to_warehouse_id) REFERENCES warehouse(warehouse_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG AUDIT LOG
--- ===================================================================
+-- -------------------------
+-- Các bảng báo cáo, kế toán & tích hợp với MISA
+-- -------------------------
+-- Audit Log
 CREATE TABLE audit_log (
                            audit_log_id BIGINT AUTO_INCREMENT,
                            table_name VARCHAR(100) NOT NULL,
@@ -314,9 +424,7 @@ CREATE TABLE audit_log (
                            CONSTRAINT fk_audit_log_employee FOREIGN KEY (changed_by) REFERENCES employee(employee_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG NOTIFICATION
--- ===================================================================
+-- Notification
 CREATE TABLE notification (
                               notification_id INT AUTO_INCREMENT,
                               title VARCHAR(150) NOT NULL,
@@ -330,9 +438,7 @@ CREATE TABLE notification (
                               INDEX idx_notification_recipient (recipient_type, recipient_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG INTEGRATION EVENT
--- ===================================================================
+-- Integration Event
 CREATE TABLE integration_event (
                                    event_id BIGINT AUTO_INCREMENT,
                                    event_type VARCHAR(100) NOT NULL,
@@ -346,9 +452,7 @@ CREATE TABLE integration_event (
                                    INDEX idx_integration_event_aggregate (aggregate_type, aggregate_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG WAREHOUSE ZONE
--- ===================================================================
+-- Warehouse Zone
 CREATE TABLE warehouse_zone (
                                 zone_id INT AUTO_INCREMENT,
                                 warehouse_id INT NOT NULL,
@@ -358,41 +462,7 @@ CREATE TABLE warehouse_zone (
                                 CONSTRAINT fk_warehouse_zone_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG USER ACCOUNT
--- ===================================================================
-CREATE TABLE user_account (
-                              user_id INT AUTO_INCREMENT,
-                              username VARCHAR(100) NOT NULL UNIQUE,
-                              password_hash VARCHAR(255) NOT NULL,
-                              employee_id INT,
-                              role_id INT,
-                              is_active BOOLEAN DEFAULT TRUE,
-                              last_login DATETIME,
-                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                              CONSTRAINT pk_user_account PRIMARY KEY (user_id),
-                              CONSTRAINT fk_user_account_employee FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
-                              CONSTRAINT fk_user_account_role FOREIGN KEY (role_id) REFERENCES role(role_id)
-) ENGINE=InnoDB;
-
--- ===================================================================
--- BẢNG SCHEDULED JOB
--- ===================================================================
-CREATE TABLE scheduled_job (
-                               job_id INT AUTO_INCREMENT,
-                               job_name VARCHAR(150) NOT NULL,
-                               job_description TEXT,
-                               schedule_cron VARCHAR(50) NOT NULL,
-                               last_run DATETIME,
-                               next_run DATETIME,
-                               status VARCHAR(50) DEFAULT 'scheduled',
-                               created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                               CONSTRAINT pk_scheduled_job PRIMARY KEY (job_id)
-) ENGINE=InnoDB;
-
--- ===================================================================
--- BẢNG SYSTEM CONFIGURATION
--- ===================================================================
+-- System Configuration
 CREATE TABLE system_configuration (
                                       config_id INT AUTO_INCREMENT,
                                       config_key VARCHAR(100) NOT NULL UNIQUE,
@@ -402,9 +472,7 @@ CREATE TABLE system_configuration (
                                       CONSTRAINT pk_system_configuration PRIMARY KEY (config_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG CHART OF ACCOUNTS
--- ===================================================================
+-- Chart of Accounts
 CREATE TABLE chart_of_accounts (
                                    account_id INT AUTO_INCREMENT,
                                    account_code VARCHAR(50) NOT NULL UNIQUE,
@@ -415,9 +483,7 @@ CREATE TABLE chart_of_accounts (
                                    CONSTRAINT pk_chart_of_accounts PRIMARY KEY (account_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG JOURNAL ENTRY & JOURNAL ENTRY DETAIL
--- ===================================================================
+-- Journal Entry & Detail
 CREATE TABLE journal_entry (
                                journal_entry_id BIGINT AUTO_INCREMENT,
                                entry_date DATE NOT NULL,
@@ -438,9 +504,7 @@ CREATE TABLE journal_entry_detail (
                                       CONSTRAINT fk_jed_account FOREIGN KEY (account_id) REFERENCES chart_of_accounts(account_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG ACCOUNTING PERIOD
--- ===================================================================
+-- Accounting Period
 CREATE TABLE accounting_period (
                                    period_id INT AUTO_INCREMENT,
                                    period_name VARCHAR(50) NOT NULL,
@@ -451,9 +515,7 @@ CREATE TABLE accounting_period (
                                    CONSTRAINT pk_accounting_period PRIMARY KEY (period_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG SALES INVOICE
--- ===================================================================
+-- Sales Invoice
 CREATE TABLE sales_invoice (
                                invoice_id INT AUTO_INCREMENT,
                                sales_order_id INT NOT NULL,
@@ -469,9 +531,7 @@ CREATE TABLE sales_invoice (
                                CONSTRAINT fk_si_accounting_period FOREIGN KEY (accounting_period_id) REFERENCES accounting_period(period_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG PURCHASE INVOICE
--- ===================================================================
+-- Purchase Invoice
 CREATE TABLE purchase_invoice (
                                   invoice_id INT AUTO_INCREMENT,
                                   purchase_order_id INT NOT NULL,
@@ -487,9 +547,7 @@ CREATE TABLE purchase_invoice (
                                   CONSTRAINT fk_pi_accounting_period FOREIGN KEY (accounting_period_id) REFERENCES accounting_period(period_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG TAX RATE
--- ===================================================================
+-- Tax Rate
 CREATE TABLE tax_rate (
                           tax_rate_id INT AUTO_INCREMENT,
                           tax_name VARCHAR(50) NOT NULL,
@@ -500,9 +558,7 @@ CREATE TABLE tax_rate (
                           CONSTRAINT pk_tax_rate PRIMARY KEY (tax_rate_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG TAX DETAIL
--- ===================================================================
+-- Tax Detail
 CREATE TABLE tax_detail (
                             tax_detail_id INT AUTO_INCREMENT,
                             invoice_id INT NOT NULL,
@@ -514,9 +570,7 @@ CREATE TABLE tax_detail (
                             CONSTRAINT fk_td_tax_rate FOREIGN KEY (tax_rate_id) REFERENCES tax_rate(tax_rate_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG TAX REPORT
--- ===================================================================
+-- Tax Report
 CREATE TABLE tax_report (
                             report_id INT AUTO_INCREMENT,
                             accounting_period_id INT NOT NULL,
@@ -531,9 +585,7 @@ CREATE TABLE tax_report (
                             CONSTRAINT fk_tr_accounting_period FOREIGN KEY (accounting_period_id) REFERENCES accounting_period(period_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG MISA INTEGRATION LOG
--- ===================================================================
+-- MISA Integration Log
 CREATE TABLE misa_integration_log (
                                       integration_id BIGINT AUTO_INCREMENT,
                                       operation VARCHAR(100) NOT NULL,
@@ -547,9 +599,7 @@ CREATE TABLE misa_integration_log (
                                       INDEX idx_misa_entity (entity_name, entity_id)
 ) ENGINE=InnoDB;
 
--- ===================================================================
--- BẢNG MISA EXPORT
--- ===================================================================
+-- MISA Export
 CREATE TABLE misa_export (
                              export_id BIGINT AUTO_INCREMENT,
                              export_type ENUM('sales_invoice','purchase_invoice','journal_entry') NOT NULL,
@@ -559,108 +609,4 @@ CREATE TABLE misa_export (
                              message TEXT,
                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                              CONSTRAINT pk_misa_export PRIMARY KEY (export_id)
-) ENGINE=InnoDB;
-
--- ===================================================================
--- DATABASE AUTHENTICATION
--- ===================================================================
--- Tạo cơ sở dữ liệu cho hệ thống authentication và quản lý user
-CREATE DATABASE IF NOT EXISTS auth_management;
-USE auth_management;
-
--- ============================================================================
--- BẢNG user_account: Lưu trữ thông tin người dùng
--- ============================================================================
-CREATE TABLE user_account (
-                              user_id INT AUTO_INCREMENT,
-                              username VARCHAR(100) NOT NULL UNIQUE,
-                              email VARCHAR(150) NOT NULL UNIQUE,
-                              password_hash VARCHAR(255) NOT NULL,
-                              full_name VARCHAR(150),
-                              is_active BOOLEAN DEFAULT TRUE,
-                              last_login DATETIME,
-                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                              CONSTRAINT pk_user_account PRIMARY KEY (user_id)
-) ENGINE=InnoDB;
-
--- ============================================================================
--- BẢNG role: Lưu trữ thông tin vai trò (role) của người dùng
--- ============================================================================
-CREATE TABLE role (
-                      role_id INT AUTO_INCREMENT,
-                      role_name VARCHAR(50) NOT NULL UNIQUE,
-                      description TEXT,
-                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                      CONSTRAINT pk_role PRIMARY KEY (role_id)
-) ENGINE=InnoDB;
-
--- ============================================================================
--- BẢNG user_role: Liên kết nhiều-nhiều giữa user_account và role
--- ============================================================================
-CREATE TABLE user_role (
-                           user_id INT NOT NULL,
-                           role_id INT NOT NULL,
-                           assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                           CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
-                           CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES user_account(user_id),
-                           CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES role(role_id)
-) ENGINE=InnoDB;
-
--- ============================================================================
--- BẢNG auth_token: Lưu trữ token đăng nhập (access token, refresh token)
--- ============================================================================
-CREATE TABLE auth_token (
-                            token_id INT AUTO_INCREMENT,
-                            user_id INT NOT NULL,
-                            access_token VARCHAR(255) NOT NULL,
-                            refresh_token VARCHAR(255),
-                            issued_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                            expires_at DATETIME NOT NULL,
-                            is_revoked BOOLEAN DEFAULT FALSE,
-                            CONSTRAINT pk_auth_token PRIMARY KEY (token_id),
-                            CONSTRAINT fk_auth_token_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
-) ENGINE=InnoDB;
-
--- ============================================================================
--- BẢNG password_reset: Ghi nhận yêu cầu đặt lại mật khẩu
--- ============================================================================
-CREATE TABLE password_reset (
-                                reset_id INT AUTO_INCREMENT,
-                                user_id INT NOT NULL,
-                                reset_token VARCHAR(255) NOT NULL,
-                                requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                expires_at DATETIME NOT NULL,
-                                used BOOLEAN DEFAULT FALSE,
-                                CONSTRAINT pk_password_reset PRIMARY KEY (reset_id),
-                                CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
-) ENGINE=InnoDB;
-
--- ============================================================================
--- BẢNG login_attempt: Ghi lại các lần đăng nhập (để theo dõi và phát hiện bất thường)
--- ============================================================================
-CREATE TABLE login_attempt (
-                               attempt_id INT AUTO_INCREMENT,
-                               user_id INT,         -- có thể null nếu username không tồn tại
-                               username VARCHAR(100),
-                               attempt_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-                               ip_address VARCHAR(45),
-                               success BOOLEAN,
-                               CONSTRAINT pk_login_attempt PRIMARY KEY (attempt_id)
-) ENGINE=InnoDB;
--- ============================================================================
--- BẢNG user_session: Lưu trữ thông tin phiên làm việc của người dùng
--- ============================================================================
-CREATE TABLE user_session (
-                              session_id INT AUTO_INCREMENT,
-                              user_id INT NOT NULL,
-                              session_token VARCHAR(255) NOT NULL,
-                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                              last_activity DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                              expires_at DATETIME,
-                              ip_address VARCHAR(45),
-                              user_agent VARCHAR(255),
-                              is_active BOOLEAN DEFAULT TRUE,
-                              CONSTRAINT pk_user_session PRIMARY KEY (session_id),
-                              CONSTRAINT fk_user_session_user FOREIGN KEY (user_id) REFERENCES user_account(user_id)
 ) ENGINE=InnoDB;
