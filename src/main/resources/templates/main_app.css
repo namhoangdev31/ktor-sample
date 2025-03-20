@@ -1,58 +1,570 @@
-.footer {
-    background-color: #3f4460;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+:root {
+    --primary-color: #0FB5AE;
+    --sidebar-color: #FFFFFF;
+    --main-bg-color: #F5F6F8;
+    --card-bg-color: #FFFFFF;
+    --text-dark: #333333;
+    --text-medium: #4d4d4d;
+    --text-light: #6e6e6e;
+    --border-color: #E0E0E0;
+    --success-color: #4CAF50;
+    --danger-color: #FF5252;
+    --warning-color: #FFC107;
+    --blue-color: #2196F3;
+    --sales-color: #4CAF50;
+    --purchase-color: #2196F3;
+    --profit-color: #FF9800;
+    --cost-color: #9C27B0;
+    --cancel-color: #9575CD;
+    --return-color: #FF9800;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-    background-color: #FFFFFF;
-}
-.content {
-    flex: auto;
-    flex-direction: column;
-}
-.sidebar {
-    max-width: 250px;
-    height: 100vh;
-    position: fixed;
-    background-color: #FFFFFF;
-    color: #fff;
-    overflow-y: auto;
-    padding: 24px;
-}
-.sidebar::-webkit-scrollbar {
-    width: 2px;
-}
-.sidebar::-webkit-scrollbar-track {
-    background: #3b94ea;
-}
-.sidebar::-webkit-scrollbar-thumb {
-    background-color: #00509e;
-    border-radius: 3px;
-}
-.sidebar a {
-    color: #5D6679;
-    padding: 15px;
-    display: block;
-    text-decoration: none;
-}
-.sidebar a:hover {
-    background-color: #3b94ea;
-}
-.content-aussth {
-    margin-left: 250px;
-}
-.navbar{
-    background-color: #000;
-    color: #fff;
-    padding: 10px;
     display: flex;
+    min-height: 100vh;
+    background-color: var(--main-bg-color);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 230px;
+    background-color: var(--sidebar-color);
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+/*.sidebar-brand img {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*}*/
+
+.sidebar-brand span {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.sidebar-menu {
+    flex-grow: 1;
+}
+
+.menu-item {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    color: var(--text-medium);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    margin-bottom: 5px;
+}
+
+.menu-item:hover, .menu-item.active {
+    background-color: rgba(15, 181, 174, 0.05);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+}
+
+.menu-item i {
+    width: 24px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.menu-item span {
+    font-size: 14px;
+}
+
+.sidebar-footer {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    color: var(--text-medium);
+    text-decoration: none;
+    margin-top: auto;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1;
+    margin-left: 230px;
+    padding: 0 20px 20px;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-container {
+    flex-grow: 1;
+    max-width: 700px;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.notification {
+    margin-right: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+.notification i {
+    font-size: 20px;
+    color: var(--text-medium);
+}
+
+.notification .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+}
+
+.col-8 {
+    grid-column: span 8;
+}
+
+.col-4 {
+    grid-column: span 4;
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    flex: 1;
+    min-width: 120px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.sales-icon {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--sales-color);
+}
+
+.revenue-icon {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: var(--blue-color);
+}
+
+.profit-icon {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: var(--profit-color);
+}
+
+.cost-icon {
+    background-color: rgba(156, 39, 176, 0.1);
+    color: var(--cost-color);
+}
+
+.purchase-icon {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: var(--purchase-color);
+}
+
+.cancel-icon {
+    background-color: rgba(149, 117, 205, 0.1);
+    color: var(--cancel-color);
+}
+
+.return-icon {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: var(--return-color);
+}
+
+.inventory-icon {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: var(--return-color);
+}
+
+.suppliers-icon {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: var(--blue-color);
+}
+
+.categories-icon {
+    background-color: rgba(156, 39, 176, 0.1);
+    color: var(--cost-color);
+}
+
+.stat-icon i {
+    font-size: 18px;
+}
+
+.stat-info h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.stat-info span {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* Chart Styles */
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-size: 12px;
+    color: var(--text-medium);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.sales-color {
+    background-color: var(--sales-color);
+}
+
+.purchase-color {
+    background-color: var(--purchase-color);
+}
+
+.ordered-color {
+    background-color: var(--return-color);
+}
+
+.delivered-color {
+    background-color: var(--blue-color);
+}
+
+/* Bar Chart Styling */
+.bar-chart {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 8%;
+}
+
+.bars {
+    display: flex;
+    width: 100%;
     justify-content: space-between;
 }
 
+.bar {
+    border-radius: 4px 4px 0 0;
+    width: 45%;
+}
+
+.bar.blue {
+    background-color: var(--purchase-color);
+}
+
+.bar.green {
+    background-color: var(--sales-color);
+}
+
+.month-label {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* Line Chart Styling */
+.line-chart-container {
+    height: 200px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.line-chart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    font-weight: 600;
+    color: var(--text-medium);
+    font-size: 14px;
+}
+
+td {
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.low-stock {
+    color: var(--danger-color);
+    font-size: 12px;
+    font-weight: 600;
+    background-color: rgba(255, 82, 82, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.see-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Low Stock Item Styling */
+.low-stock-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stock-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.stock-info {
+    flex-grow: 1;
+}
+
+.stock-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.stock-quantity {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.filter-btn {
+    padding: 6px 15px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+
+.filter-btn i {
+    margin-right: 5px;
+}
+
+/* Chart Y-axis labels */
+.y-axis-labels {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.axis-label {
+    position: relative;
+}
+
+.axis-label::after {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    width: calc(100vw - 300px);
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.05);
+    z-index: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .col-8, .col-4 {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    .sidebar-brand span, .menu-item span, .sidebar-footer span{
+        display: none;
+    }
+    .main-content {
+        margin-left: 70px;
+    }
+}
 .max-width-img-70{
     max-width: 50%;
 }
