@@ -2,17 +2,14 @@
 <div class="sidebar">
     <div class="sidebar-brand">
         <picture>
-            <!-- Logo for screens wider than 768px -->
             <source
                     media="(min-width: 769px)"
                     srcset="/static/images/drawer_logo.png"
             />
-            <!-- Logo for screens up to 768px -->
             <source
                     media="(max-width: 768px)"
                     srcset="/static/images/logo.png"
             />
-            <!-- Fallback image if sources are not supported -->
             <img
                     src="/static/images/drawer_logo.png"
                     alt="Kanban Logo"

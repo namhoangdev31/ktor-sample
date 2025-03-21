@@ -16,8 +16,9 @@ fun Application.configureTemplating() {
         val sharedTemplates = ClassTemplateLoader(this::class.java.classLoader, "templates/shared")
         val defaultTemplates = ClassTemplateLoader(this::class.java.classLoader, "templates")
         val loginTemplate = ClassTemplateLoader(this::class.java.classLoader, "templates/auth")
+        val dashboardTemplate = ClassTemplateLoader(this::class.java.classLoader, "templates/dashboard")
 
-        templateLoader = MultiTemplateLoader(arrayOf(defaultTemplates, userTemplates, sharedTemplates , loginTemplate))
+        templateLoader = MultiTemplateLoader(arrayOf(defaultTemplates, userTemplates, sharedTemplates , loginTemplate, dashboardTemplate))
         outputFormat = HTMLOutputFormat.INSTANCE
     }
     routing {
@@ -51,19 +52,22 @@ fun Application.configureTemplating() {
         get("/${AppRoute.Login}") {
             call.respond(FreeMarkerContent("${AppString.LoginTemplate}/index.ftl", mapOf("title" to "Login")))
         }
-
         get("/${AppRoute.Register}") {
             call.respond(
                 FreeMarkerContent("${AppString.LoginTemplate}/register.ftl", mapOf("title" to "Create User"))
             )
         }
-
         get("/${AppRoute.User}/detail") {
             val userId = call.request.queryParameters["id"]
             val userName = call.request.queryParameters["name"]
             call.respond(
                 FreeMarkerContent("${AppString.UserTemplate}/detail.ftl",
                     mapOf("title" to "User Detail", "userId" to userId , "name" to userName))
+            )
+        }
+        get("/${AppRoute.Dashboard}") {
+            call.respond(
+                FreeMarkerContent("${AppString.DashboardTemplate}/index.ftl", mapOf("title" to "Dashboard"))
             )
         }
     }
