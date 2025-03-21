@@ -9,8 +9,6 @@ import com.example.service.AuthService
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.apache.kafka.clients.admin.Admin
-import org.koin.java.KoinJavaComponent.inject
 import org.mindrot.jbcrypt.BCrypt
 import java.util.UUID.randomUUID
 

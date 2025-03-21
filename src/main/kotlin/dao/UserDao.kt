@@ -11,33 +11,9 @@ import org.jetbrains.exposed.dao.*
 import org.jetbrains.exposed.dao.id.*
 import org.jetbrains.exposed.sql.Op
 import java.time.ZoneId
-
-class UserDTO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserDTO>(UserAccountTable)
-    var uuid by UserAccountTable.uuid
-    var username by UserAccountTable.username
-    var password by UserAccountTable.passwordHash
-    var email by UserAccountTable.email
-    var isActive by UserAccountTable.isActive
-    var fullName by UserAccountTable.fullName
-    var lastLogin by UserAccountTable.lastLogin
-    var createdAt by UserAccountTable.createdAt
-    var updatedAt by UserAccountTable.updatedAt
+import com.example.dto.*
 
 
-    fun toUserEntity() = UserEntity(
-        id = id.value,
-        uuid = uuid,
-        username = username,
-        email = email,
-        fullName = fullName,
-        passwordHash = password,
-        isActive = isActive,
-        lastLogin = lastLogin,
-        createdAt = createdAt,
-        updatedAt = updatedAt
-    )
-}
 
 interface UserDao {
     suspend fun findUserByUsername(username: String): UserEntity?

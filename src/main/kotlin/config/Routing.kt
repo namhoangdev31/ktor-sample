@@ -1,7 +1,9 @@
 package com.example.config
 
 import com.example.controllers.AuthController
+import com.example.controllers.UserController
 import com.example.controllers.authRoutes
+import com.example.controllers.userRoutes
 import com.example.dto.ErrorResponse
 import com.example.exceptions.*
 import io.ktor.http.*
@@ -65,6 +67,7 @@ fun Application.configureRouting() {
     }
     routing {
         authRoutes(AuthController())
+        userRoutes(UserController())
     }
 }
 //

@@ -1,12 +1,12 @@
 package com.example.config
 
-import com.example.utils.*
-import freemarker.cache.*
+import com.example.utils.AppRoute
+import com.example.utils.AppString
+import freemarker.cache.ClassTemplateLoader
+import freemarker.cache.MultiTemplateLoader
 import freemarker.core.HTMLOutputFormat
-import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
-import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 

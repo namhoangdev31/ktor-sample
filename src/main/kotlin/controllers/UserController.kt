@@ -1,11 +1,26 @@
 package com.example.controllers
 
-import io.ktor.http.ContentType
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.response.respondText
+import com.example.repositories.UserRepository
+import com.example.utils.AppRoute
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import org.koin.java.KoinJavaComponent.inject
+
 
 class UserController() {
-    suspend fun getUser(call: ApplicationCall) {
+    private val userRepository: UserRepository by inject(UserRepository::class.java)
 
+    suspend fun getUser(call: ApplicationCall) {
+        val user = userRepository.getUser()
+        call.respond(user)
+    }
+}
+
+fun Route.userRoutes(userController: UserController) {
+    route("/${AppRoute.User}") {
+        get("/") {
+            userController.getUser(call)
+        }
     }
 }

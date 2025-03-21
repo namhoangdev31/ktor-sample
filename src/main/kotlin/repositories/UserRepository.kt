@@ -1,7 +1,6 @@
 package com.example.repositories
 
 import com.example.dao.UserDao
-import com.example.service.AuthService
 import com.example.services.UserService
 
 interface UserRepository {
