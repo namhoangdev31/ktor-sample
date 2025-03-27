@@ -75,5 +75,4 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("org.mindrot:jbcrypt:$bycrypt_version")
     implementation("io.ktor:ktor-server-compression")
-
 }

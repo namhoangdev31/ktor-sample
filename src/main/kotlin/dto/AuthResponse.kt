@@ -6,13 +6,8 @@ import kotlinx.serialization.Serializable
 data class AuthResponse<T>(
     val statusMessage: String,
     val error: String? = null,
-    val data: T? = null
+    val data: T? = null,
+    val tokenAccess: String? = null
 )
 
-@Serializable
-data class AuthRequest(
-    val username: String,
-    val password: String,
-    val email: String? = null,
-    val isActive: Boolean = false
-)
+

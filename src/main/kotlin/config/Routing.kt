@@ -1,11 +1,9 @@
 package com.example.config
 
-import com.example.controllers.AuthController
-import com.example.controllers.UserController
-import com.example.controllers.authRoutes
-import com.example.controllers.userRoutes
-import com.example.dto.ErrorResponse
+import com.example.controllers.*
+import com.example.dto.*
 import com.example.exceptions.*
+import com.example.utils.*
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -26,10 +24,11 @@ import kotlinx.serialization.Serializable
 fun Application.configureRouting() {
     install(DoubleReceive)
     install(RequestValidation) {
-        validate<String> { bodyText ->
-            if (!bodyText.startsWith("Hello"))
-                ValidationResult.Invalid("Body text should start with 'Hello'")
-            else ValidationResult.Valid
+        validate<RegisterRequest> { registerRequest ->
+            validateRegisterRequest(registerRequest)
+        }
+        validate<AuthRequest> { authRequest ->
+            validateAuthRequest(authRequest)
         }
     }
     install(Resources)
@@ -55,6 +54,9 @@ fun Application.configureRouting() {
                     error = cause.message ?: "Resource not found"
                 )
             )
+        }
+        exception<RequestValidationException> { call, cause ->
+            call.respond(HttpStatusCode.BadRequest, mapOf("errors" to cause.reasons))
         }
         status(HttpStatusCode.NotFound) { call, _ ->
             call.respond(
@@ -89,6 +91,3 @@ fun Application.configureRouting() {
 //    call.respondText("<script src='/webjars/jquery/jquery.js'></script>", ContentType.Text.Html)
 //}
 
-@Serializable
-@Resource("/articles")
-class Articles(val sort: String? = "new")

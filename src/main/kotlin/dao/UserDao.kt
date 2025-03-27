@@ -1,5 +1,6 @@
 package com.example.dao
 
+import com.example.config.DatabaseAuthFactory
 import com.example.config.DatabaseFactory
 import com.example.config.dbQuery
 import com.example.models.UserEntity
@@ -24,15 +25,16 @@ interface UserDao {
 }
 
 class UserDaoImpl : UserDao {
-    override suspend fun findUserByUsername(username: String): UserEntity? = dbQuery(DatabaseFactory.dbMain) {
+    override suspend fun findUserByUsername(username: String): UserEntity? = dbQuery(DatabaseAuthFactory.dbAuth) {
         UserDTO.find { UserAccountTable.username eq username }
             .singleOrNull()?.toUserEntity()
     }
 
-    override suspend fun insertUser(user: UserEntity): UserEntity = dbQuery(DatabaseFactory.dbMain) {
+    override suspend fun insertUser(user: UserEntity): UserEntity = dbQuery(DatabaseAuthFactory.dbAuth) {
         val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
         val newUser = UserDTO.new {
+            this.uuid = user.uuid
             this.username = user.username
             this.password = user.passwordHash
             this.email = user.email
@@ -42,14 +44,14 @@ class UserDaoImpl : UserDao {
         newUser.toUserEntity()
     }
 
-    override suspend fun deleteUser(id: Int): Boolean = dbQuery(DatabaseFactory.dbMain) {
+    override suspend fun deleteUser(id: Int): Boolean = dbQuery(DatabaseAuthFactory.dbAuth) {
         UserDTO.findById(id)?.let {
             it.delete()
             true
         } == true
     }
 
-    override suspend fun getAll(): List<UserEntity> = dbQuery(DatabaseFactory.dbMain) {
+    override suspend fun getAll(): List<UserEntity> = dbQuery(DatabaseAuthFactory.dbAuth) {
         UserDTO.all().map { it.toUserEntity() }
     }
 

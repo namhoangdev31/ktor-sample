@@ -3,6 +3,7 @@ package com.example.repositories
 import com.example.dao.UserDao
 import com.example.dto.AuthRequest
 import com.example.dto.AuthResponse
+import com.example.dto.RegisterRequest
 import com.example.exceptions.AuthenticationException
 import com.example.models.UserEntity
 import com.example.service.AuthService
@@ -14,7 +15,7 @@ import java.util.UUID.randomUUID
 
 interface AuthRepository {
     suspend fun login(postParam: AuthRequest): AuthResponse<UserEntity>
-    suspend fun register(postParam: AuthRequest): AuthResponse<UserEntity>
+    suspend fun register(postParam: RegisterRequest): AuthResponse<UserEntity>
 }
 
 class AuthRepositoryImpl(
@@ -28,7 +29,7 @@ class AuthRepositoryImpl(
 
         // Validate password
         if (!BCrypt.checkpw(postParam.password, user.passwordHash)) {
-            throw AuthenticationException("Invalid username or password")
+            throw AuthenticationException("Invalid password")
         }
 
         // Generate JWT token
@@ -37,20 +38,20 @@ class AuthRepositoryImpl(
         return AuthResponse(
             statusMessage = "Login Successful",
             data = user,
-            error = null
+            error = null,
+            tokenAccess = token
         ).copy(error = null).also {
             println("Generated Token: $token")  // For debug purposes
         }
     }
 
-    override suspend fun register(postParam: AuthRequest): AuthResponse<UserEntity> {
+    override suspend fun register(postParam: RegisterRequest): AuthResponse<UserEntity> {
         if (userDao.findUserByUsername(postParam.username) != null) {
             throw AuthenticationException("Username already exists")
         }
 
         val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-        // Hash the password
         val hashedPassword = BCrypt.hashpw(postParam.password, BCrypt.gensalt())
 
         val newUser = UserEntity(

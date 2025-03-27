@@ -1,6 +1,7 @@
 package com.example.controllers
 
 import com.example.dto.AuthRequest
+import com.example.dto.RegisterRequest
 import com.example.exceptions.AuthenticationException
 import com.example.repositories.AuthRepository
 import com.example.utils.ApiRoute
@@ -20,17 +21,17 @@ class AuthController() {
             val response = authRepository.login(postParam)
             call.respond(response)
         } catch (e: AuthenticationException) {
-            call.respond(HttpStatusCode.Unauthorized, e.message ?: "Authentication failed")
+            throw AuthenticationException(e.message ?: "Authentication failed")
         }
     }
 
     suspend fun register(call: ApplicationCall) {
         try {
-            val postParam = call.receive<AuthRequest>()
+            val postParam = call.receive<RegisterRequest>()
             val response = authRepository.register(postParam)
             call.respond(response)
         } catch (e: AuthenticationException) {
-            call.respond(HttpStatusCode.Conflict, e.message ?: "Registration failed")
+            throw AuthenticationException(e.message ?: "Authentication failed")
         }
     }
 }

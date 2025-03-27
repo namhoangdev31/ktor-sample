@@ -17,6 +17,7 @@ class UserDTO(id: EntityID<Int>) : IntEntity(id) {
     var lastLogin by UserAccountTable.lastLogin
     var createdAt by UserAccountTable.createdAt
     var updatedAt by UserAccountTable.updatedAt
+    var isAdmin by UserAccountTable.isAdmin
 
 
     fun toUserEntity() = UserEntity(
@@ -29,6 +30,7 @@ class UserDTO(id: EntityID<Int>) : IntEntity(id) {
         isActive = isActive,
         lastLogin = lastLogin,
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
+        isAdmin = isAdmin
     )
 }

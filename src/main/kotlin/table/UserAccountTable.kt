@@ -14,4 +14,5 @@ object UserAccountTable : IntIdTable("user_account") {
     val lastLogin = datetime("last_login").nullable()
     val createdAt = datetime("created_at").defaultExpression(CurrentDateTime)
     val updatedAt = datetime("updated_at").nullable()
+    val isAdmin = bool("is_admin").default(false)
 }

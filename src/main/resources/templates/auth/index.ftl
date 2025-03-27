@@ -7,7 +7,6 @@
             <img src="/static/images/backside.png" class="img-fluid max-width-img-70" alt="Login Illustration">
         </div>
 
-        <!-- Login Form Section -->
         <div class="col-md-6 p-4 bg-white d-flex justify-content-center align-items-center flex-column">
             <img src="/static/images/logo.png"  class="img-fluid width-[250]" alt="Logo" />
             <form action="/v1/auth/login" method="post" class="">
@@ -23,8 +22,8 @@
                 </div>
                 <div class="justify-content-between flex-row d-flex w-100 row-gap-md-4 align-items-center mb-3">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
-                        <label class="form-check-label small" for="isAdmin">Remember for 30 days</label>
+                        <input type="checkbox" class="form-check-input" id="isRememberMe" name="isRememberMe">
+                        <label class="form-check-label small" for="isRememberMe">Remember for 30 days</label>
                     </div>
                     <a href="/register" class="text-decoration small">Forgot password</a>
                 </div>
@@ -45,7 +44,6 @@
         </div>
     </div>
 </main>
-<#--<#include "../shared/footer.ftl">-->
 <script>
     <#include "login.js">
 </script>

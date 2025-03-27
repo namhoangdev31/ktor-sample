@@ -59,6 +59,7 @@ fun Application.configureDatabases() {
     DatabaseAuthFactory.init(environment)
 }
 
+
 /**
  * Makes a connection to a Postgres database.
  *
@@ -158,3 +159,25 @@ suspend fun <T> asyncDbQuery(db: Database, block: suspend () -> T): T =
 //            // MyRecord::class at myTopic // <-- Will register schema upon startup
 //        }
 //    }
+
+//val dbUrl = environment.config.property("postgres.url").getString()
+//    val dbUser = environment.config.property("postgres.user.username").getString()
+//    val dbPassword = environment.config.property("postgres.password.passwordktor").getString()
+//
+//    val flyway = Flyway.configure()
+//        .dataSource(dbUrl, dbUser, dbPassword)
+//        .locations("classpath:db/migration")
+//        .load()
+//
+//    flyway.migrate()
+//
+//    val dbAuthUrl = "jdbc:postgresql://${environment.config.property("postgres.host").getString()}:${environment.config.property("postgres.port").getString()}/${environment.config.property("postgres.database").getString()}?prepareThreshold=0"
+//    val dbAuthUser = environment.config.property("postgres.user.usernameauth").getString()
+//    val dbAuthPassword = environment.config.property("postgres.password.passwordauth").getString()
+//
+//    val flywayAuth = Flyway.configure()
+//        .dataSource(dbAuthUrl, dbAuthUser, dbAuthPassword)
+//        .locations("classpath:db/migration")
+//        .load()
+//
+//    flywayAuth.migrate()

@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (response.ok) {
-                console.log("Đăng nhập thành công");
-                window.location.href = "/user";
+                const responseBody = await response.json();
+                // luu token vao localStorage
+                localStorage.setItem("auth_token", responseBody.tokenAccess);
+                window.location.href = "/";
             } else {
                 const errorText = await response.json();
                 console.error("Đăng nhập thất bại:", errorText.error || "Unknown error");

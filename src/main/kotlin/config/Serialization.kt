@@ -8,6 +8,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 
 fun Application.configureSerialization() {
+
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
@@ -15,6 +16,7 @@ fun Application.configureSerialization() {
             ignoreUnknownKeys = false
         })
     }
+
     routing {
         get("/json/kotlinx-serialization") {
             call.respond(mapOf("hello" to "world"))
