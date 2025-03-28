@@ -13,7 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.java.KoinJavaComponent.inject
 
-class AuthController() {
+class AuthController {
     private val authRepository: AuthRepository by inject(AuthRepository::class.java)
     suspend fun login(call: ApplicationCall) {
         val postParam = call.receive<AuthRequest>()
@@ -37,16 +37,4 @@ class AuthController() {
 }
 
 
-fun Route.authRoutes(authController: AuthController) {
-    route(ApiRoute.AuthPrefix) {
-        get("/${AppRoute.Login}") {
-            call.respondText("Display auth page", ContentType.Text.Html)
-        }
-        post("/${AppRoute.Login}") {
-            authController.login(call)
-        }
-        post("/${AppRoute.Register}") {
-            authController.register(call)
-        }
-    }
-}
+

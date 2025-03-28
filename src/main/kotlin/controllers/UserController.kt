@@ -8,7 +8,7 @@ import io.ktor.server.routing.*
 import org.koin.java.KoinJavaComponent.inject
 
 
-class UserController() {
+class UserController {
     private val userRepository: UserRepository by inject(UserRepository::class.java)
 
     suspend fun getUser(call: ApplicationCall) {
@@ -17,10 +17,3 @@ class UserController() {
     }
 }
 
-fun Route.userRoutes(userController: UserController) {
-    route("/${AppRoute.User}") {
-        get("/") {
-            userController.getUser(call)
-        }
-    }
-}

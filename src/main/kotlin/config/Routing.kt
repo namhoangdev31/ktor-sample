@@ -89,3 +89,24 @@ fun Application.configureRouting() {
 //    call.respondText("<script src='/webjars/jquery/jquery.js'></script>", ContentType.Text.Html)
 //}
 
+fun Route.authRoutes(authController: AuthController) {
+    route(ApiRoute.AuthPrefix) {
+        get("/${AppRoute.Login}") {
+            call.respondText("Display auth page", ContentType.Text.Html)
+        }
+        post("/${AppRoute.Login}") {
+            authController.login(call)
+        }
+        post("/${AppRoute.Register}") {
+            authController.register(call)
+        }
+    }
+}
+
+fun Route.userRoutes(userController: UserController) {
+    route("/${AppRoute.User}") {
+        get("/") {
+            userController.getUser(call)
+        }
+    }
+}
