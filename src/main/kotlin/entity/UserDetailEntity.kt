@@ -1,6 +1,5 @@
-package com.example.dto
+package com.example.entity
 
-import com.example.models.RegionEntity
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 

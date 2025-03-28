@@ -1,16 +1,15 @@
 package com.example.config
 
 import com.example.controllers.*
-import com.example.dto.*
 import com.example.exceptions.*
+import com.example.models.AuthRequest
+import com.example.models.ErrorResponse
+import com.example.models.RegisterRequest
 import com.example.utils.*
 import io.ktor.http.*
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.FreeMarkerContent
-import io.ktor.server.plugins.*
 import io.ktor.server.plugins.NotFoundException
-import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.doublereceive.*
 import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
@@ -19,7 +18,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sse.*
 import io.ktor.server.webjars.*
-import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
     install(DoubleReceive)

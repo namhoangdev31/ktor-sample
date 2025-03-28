@@ -1,14 +1,18 @@
 package com.example.dto
 
+import com.example.entity.UserDetailEntity
 import com.example.table.UserDetailTable
 import com.example.table.UserAccountTable
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.dao.EntityBatchUpdate
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
-class UserDetailsDto(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserDetailsDto>(UserDetailTable)
+class UserDetailsDTO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserDetailsDTO>(UserDetailTable)
     var uuid by UserDetailTable.uuid
     var username by UserDetailTable.username
     var email by UserDetailTable.email
@@ -16,12 +20,13 @@ class UserDetailsDto(id: EntityID<Int>) : IntEntity(id) {
     var role by UserDetailTable.role
     var status by UserDetailTable.status
     var region by UserDetailTable.region
-
     var password by UserAccountTable.passwordHash
     var isActive by UserAccountTable.isActive
     var fullName by UserAccountTable.fullName
     var lastLogin by UserAccountTable.lastLogin
     var isAdmin by UserAccountTable.isAdmin
+    var createdAt by UserAccountTable.createdAt
+    var updatedAt by UserAccountTable.updatedAt
 
     fun toUserDetailEntity() = UserDetailEntity(
         id = id.value,
@@ -38,4 +43,10 @@ class UserDetailsDto(id: EntityID<Int>) : IntEntity(id) {
         lastLogin = lastLogin,
         isAdmin = isAdmin
     )
+
+    override fun flush(batch: EntityBatchUpdate?): Boolean {
+        val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        updatedAt = currentTime
+        return super.flush(batch)
+    }
 }

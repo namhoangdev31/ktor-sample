@@ -10,21 +10,4 @@ interface UserRepository {
     suspend fun deleteUser()
 }
 
-class UserRepositoryImpl(private val userDao: UserDao,
-                           private val userService: UserService) : UserRepository {
-    override suspend fun getUser() {
-        userService.getUser()
-    }
 
-    override suspend fun updateUser() {
-
-    }
-
-    override suspend fun deleteUser() {
-
-    }
-
-    override suspend fun getUserDetails() {
-//        userService.getUserDetails()
-    }
-}

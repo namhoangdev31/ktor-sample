@@ -5,8 +5,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.CurrentDateTime
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
-object RegionTable : IntIdTable("region") {
+object RegionTable : BaseIntIdTable("region") {
     val regionName = varchar("region_name", 100).uniqueIndex()
     val description = varchar("description", 255).nullable()
-    val createdAt = datetime("created_at").defaultExpression(CurrentDateTime)
 }

@@ -2,7 +2,7 @@ package com.example.service
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.example.models.UserEntity
+import com.example.entity.UserEntity
 import io.ktor.server.application.*
 import java.util.*
 

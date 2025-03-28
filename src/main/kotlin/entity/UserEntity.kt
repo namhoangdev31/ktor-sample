@@ -1,9 +1,7 @@
-package com.example.models
+package com.example.entity
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 @Serializable
 data class UserEntity(

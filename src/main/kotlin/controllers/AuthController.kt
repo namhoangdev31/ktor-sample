@@ -1,7 +1,7 @@
 package com.example.controllers
 
-import com.example.dto.AuthRequest
-import com.example.dto.RegisterRequest
+import com.example.models.AuthRequest
+import com.example.models.RegisterRequest
 import com.example.exceptions.AuthenticationException
 import com.example.repositories.AuthRepository
 import com.example.utils.ApiRoute

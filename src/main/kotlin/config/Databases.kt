@@ -82,6 +82,7 @@ fun Application.configureDatabases() {
  * @return [Connection] that represent connection to the database. Please, don't forget to close this connection when
  * your application shuts down by calling [Connection.close]
  * */
+
 object DatabaseFactory {
     lateinit var dbMain: Database
 
@@ -94,7 +95,6 @@ object DatabaseFactory {
         )
         transaction(dbMain) {
             SchemaUtils.createMissingTablesAndColumns(RegionTable)
-            SchemaUtils.createMissingTablesAndColumns(UserDetailTable)
         }
     }
 }
@@ -112,6 +112,7 @@ object DatabaseAuthFactory {
         transaction(dbAuth) {
             SchemaUtils.createMissingTablesAndColumns(UserAccountTable)
             SchemaUtils.createMissingTablesAndColumns(RoleTable)
+            SchemaUtils.createMissingTablesAndColumns(UserDetailTable)
         }
     }
 }

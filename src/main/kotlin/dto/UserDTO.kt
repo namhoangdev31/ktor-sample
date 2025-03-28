@@ -1,10 +1,16 @@
 package com.example.dto
 
-import com.example.models.UserEntity
+import com.example.entity.UserEntity
 import com.example.table.UserAccountTable
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.dao.EntityBatchUpdate
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.kotlin.datetime.CurrentDateTime
 
 class UserDTO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserDTO>(UserAccountTable)
@@ -19,7 +25,6 @@ class UserDTO(id: EntityID<Int>) : IntEntity(id) {
     var updatedAt by UserAccountTable.updatedAt
     var isAdmin by UserAccountTable.isAdmin
 
-
     fun toUserEntity() = UserEntity(
         id = id.value,
         uuid = uuid,
@@ -33,4 +38,10 @@ class UserDTO(id: EntityID<Int>) : IntEntity(id) {
         updatedAt = updatedAt,
         isAdmin = isAdmin
     )
+
+    override fun flush(batch: EntityBatchUpdate?): Boolean {
+        val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        updatedAt = currentTime
+        return super.flush(batch)
+    }
 }

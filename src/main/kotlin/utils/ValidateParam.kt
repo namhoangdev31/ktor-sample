@@ -1,7 +1,7 @@
 package com.example.utils
 
-import com.example.dto.AuthRequest
-import com.example.dto.RegisterRequest
+import com.example.models.AuthRequest
+import com.example.models.RegisterRequest
 import io.ktor.server.plugins.requestvalidation.*
 
 
