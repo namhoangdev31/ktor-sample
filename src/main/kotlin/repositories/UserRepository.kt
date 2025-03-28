@@ -5,6 +5,7 @@ import com.example.services.UserService
 
 interface UserRepository {
     suspend fun getUser()
+    suspend fun getUserDetails()
     suspend fun updateUser()
     suspend fun deleteUser()
 }
@@ -21,5 +22,9 @@ class UserRepositoryImpl(private val userDao: UserDao,
 
     override suspend fun deleteUser() {
 
+    }
+
+    override suspend fun getUserDetails() {
+//        userService.getUserDetails()
     }
 }

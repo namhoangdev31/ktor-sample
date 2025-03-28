@@ -1,6 +1,5 @@
 
 <header class="navbar header header-content">
-    <!-- Search Bar -->
     <div class="search-container d-flex align-items-center">
         <i class="fas fa-search search-icon me-2"></i>
         <input type="text" placeholder="Search product, supplier, order" class="form-control border-0 shadow-none" />

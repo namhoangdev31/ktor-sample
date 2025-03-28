@@ -3,6 +3,7 @@ package com.example.config
 import com.example.table.RegionTable
 import com.example.table.RoleTable
 import com.example.table.UserAccountTable
+import com.example.table.UserDetailTable
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -93,6 +94,7 @@ object DatabaseFactory {
         )
         transaction(dbMain) {
             SchemaUtils.createMissingTablesAndColumns(RegionTable)
+            SchemaUtils.createMissingTablesAndColumns(UserDetailTable)
         }
     }
 }

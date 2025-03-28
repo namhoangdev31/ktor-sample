@@ -17,7 +17,6 @@
                 window.location.href = "/login";
             }
 
-            // Kiểm tra avatar và cập nhật
             const avatarUrl = localStorage.getItem("user_avatar");
             if (avatarUrl && avatarUrl.length > 0) {
                 const userAvatarElement = document.getElementById("user-avatar");
@@ -26,7 +25,6 @@
                 }
             }
 
-            // Đánh dấu đã load một lần
             sessionStorage.setItem("hasLoaded", "true");
         }
     });

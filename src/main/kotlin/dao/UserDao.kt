@@ -13,7 +13,7 @@ import org.jetbrains.exposed.dao.id.*
 import org.jetbrains.exposed.sql.Op
 import java.time.ZoneId
 import com.example.dto.*
-
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 
 interface UserDao {
@@ -22,6 +22,7 @@ interface UserDao {
     suspend fun deleteUser(id: Int): Boolean
     suspend fun getAll(): List<UserEntity>
     suspend fun getAllWithCondition(condition: (UserAccountTable) -> Op<Boolean>): List<UserEntity>
+    suspend fun getUserDetailByMain(uuid: String): UserDetailEntity?
 }
 
 class UserDaoImpl : UserDao {
@@ -57,5 +58,33 @@ class UserDaoImpl : UserDao {
 
     override suspend fun getAllWithCondition(condition: (UserAccountTable) -> Op<Boolean>): List<UserEntity> {
         return UserDTO.find { condition(UserAccountTable) }.map { it.toUserEntity() }
+    }
+
+    override suspend fun getUserDetailByMain(username: String): UserDetailEntity? {
+        var result: UserDetailEntity? = null
+        dbQuery(DatabaseAuthFactory.dbAuth) {
+            val data = UserDTO.find { UserAccountTable.username eq username }
+                .singleOrNull()
+                ?.toUserEntity()
+
+            if (data != null) {
+                result = UserDetailEntity(
+                    id = data.id,
+                    uuid = data.uuid,
+                    username = data.username,
+                    email = data.email,
+                    avatar = null,
+                    role = null,
+                    status = null,
+                    region = null,
+                    password = data.passwordHash,
+                    isActive = data.isActive,
+                    fullName = data.fullName ?: "",
+                    lastLogin = data.lastLogin,
+                    isAdmin = data.isAdmin
+                )
+            }
+        }
+        return result
     }
 }
