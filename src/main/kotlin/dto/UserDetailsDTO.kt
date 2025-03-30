@@ -1,8 +1,8 @@
 package com.example.dto
 
 import com.example.entity.UserDetailEntity
-import com.example.table.UserDetailTable
-import com.example.table.UserAccountTable
+import com.example.table.user.UserDetailTable
+import com.example.table.user.UserAccountTable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

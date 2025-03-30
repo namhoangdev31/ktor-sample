@@ -1,7 +1,7 @@
 package com.example.dao
 
 import com.example.entity.RegionEntity
-import com.example.table.RegionTable
+import com.example.table.inventory_management.RegionTable
 import org.jetbrains.exposed.sql.Op
 
 class RegionDaoImpl : RegionDao {

@@ -1,8 +1,7 @@
 package com.example.dto
 
 import com.example.entity.RegionEntity
-import com.example.table.RegionTable
-import com.example.table.UserDetailTable
+import com.example.table.inventory_management.RegionTable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

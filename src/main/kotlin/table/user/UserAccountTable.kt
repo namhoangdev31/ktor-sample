@@ -1,6 +1,6 @@
-package com.example.table
+package com.example.table.user
 
-import org.jetbrains.exposed.dao.id.IntIdTable
+import com.example.table.BaseIntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object UserAccountTable : BaseIntIdTable("user_account") {

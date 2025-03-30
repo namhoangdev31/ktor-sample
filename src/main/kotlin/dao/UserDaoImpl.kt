@@ -5,12 +5,11 @@ import com.example.config.dbQuery
 import com.example.dto.UserDTO
 import com.example.entity.UserDetailEntity
 import com.example.entity.UserEntity
-import com.example.table.UserAccountTable
+import com.example.table.user.UserAccountTable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.Op
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class UserDaoImpl : UserDao {
     override suspend fun findUserByUsername(username: String): UserEntity? = dbQuery(DatabaseAuthFactory.dbAuth) {

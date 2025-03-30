@@ -1,9 +1,9 @@
 package com.example.config
 
-import com.example.table.RegionTable
-import com.example.table.RoleTable
-import com.example.table.UserAccountTable
-import com.example.table.UserDetailTable
+import com.example.table.inventory_management.RegionTable
+import com.example.table.user.RoleTable
+import com.example.table.user.UserAccountTable
+import com.example.table.user.UserDetailTable
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -52,7 +52,6 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
-import java.sql.DriverManager
 import org.slf4j.event.*
 
 fun Application.configureDatabases() {
