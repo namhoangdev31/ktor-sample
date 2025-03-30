@@ -1,9 +1,9 @@
 package com.example.config
 
-import com.example.table.inventory_management.RegionTable
+import com.example.table.inventory_management.*
+import com.example.table.report.*
+import com.example.table.user.*
 import com.example.table.user.RoleTable
-import com.example.table.user.UserAccountTable
-import com.example.table.user.UserDetailTable
 import com.ucasoft.ktor.simpleMemoryCache.*
 import com.ucasoft.ktor.simpleRedisCache.*
 import dev.inmo.krontab.builder.*
@@ -93,7 +93,47 @@ object DatabaseFactory {
             password = environment.config.property("postgres.password.passwordktor").getString()
         )
         transaction(dbMain) {
+            //Table for inventory management
+            SchemaUtils.createMissingTablesAndColumns(CategoryTable)
+            SchemaUtils.createMissingTablesAndColumns(CustomerTable)
+            SchemaUtils.createMissingTablesAndColumns(DeliveryOrderDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(DeliveryOrderTable)
+            SchemaUtils.createMissingTablesAndColumns(InventoryTable)
+            SchemaUtils.createMissingTablesAndColumns(InventoryTransactionTable)
+            SchemaUtils.createMissingTablesAndColumns(EmployeeTable)
+            SchemaUtils.createMissingTablesAndColumns(LocationTable)
+            SchemaUtils.createMissingTablesAndColumns(ProductLotTable)
+            SchemaUtils.createMissingTablesAndColumns(ProductTable)
+            SchemaUtils.createMissingTablesAndColumns(PurchaseOrderTable)
+            SchemaUtils.createMissingTablesAndColumns(PurchaseOrderDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(PurchasePaymentTable)
             SchemaUtils.createMissingTablesAndColumns(RegionTable)
+            SchemaUtils.createMissingTablesAndColumns(ReturnOrderTable)
+            SchemaUtils.createMissingTablesAndColumns(ReturnOrderDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(com.example.table.inventory_management.RoleTable)
+            SchemaUtils.createMissingTablesAndColumns(SalesOrderTable)
+            SchemaUtils.createMissingTablesAndColumns(SalesOrderDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(SalesPaymentTable)
+            SchemaUtils.createMissingTablesAndColumns(SupplierTable)
+            SchemaUtils.createMissingTablesAndColumns(StockTransferTable)
+            SchemaUtils.createMissingTablesAndColumns(WarehouseTable)
+            // Table for reporting
+            SchemaUtils.createMissingTablesAndColumns(AccountingPeriodTable)
+            SchemaUtils.createMissingTablesAndColumns(AuditLogTable)
+            SchemaUtils.createMissingTablesAndColumns(ChartOfAccountsTable)
+            SchemaUtils.createMissingTablesAndColumns(IntegrationEventTable)
+            SchemaUtils.createMissingTablesAndColumns(JournalEntryTable)
+            SchemaUtils.createMissingTablesAndColumns(JournalEntryDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(MisaExportTable)
+            SchemaUtils.createMissingTablesAndColumns(MisaIntegrationLogTable)
+            SchemaUtils.createMissingTablesAndColumns(NotificationTable)
+            SchemaUtils.createMissingTablesAndColumns(PurchaseInvoiceTable)
+            SchemaUtils.createMissingTablesAndColumns(SalesInvoiceTable)
+            SchemaUtils.createMissingTablesAndColumns(SystemConfigurationTable)
+            SchemaUtils.createMissingTablesAndColumns(TaxDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(TaxRateTable)
+            SchemaUtils.createMissingTablesAndColumns(TaxReportTable)
+            SchemaUtils.createMissingTablesAndColumns(WarehouseZoneTable)
         }
     }
 }
@@ -112,6 +152,11 @@ object DatabaseAuthFactory {
             SchemaUtils.createMissingTablesAndColumns(UserAccountTable)
             SchemaUtils.createMissingTablesAndColumns(RoleTable)
             SchemaUtils.createMissingTablesAndColumns(UserDetailTable)
+            SchemaUtils.createMissingTablesAndColumns(AuthTokenTable)
+            SchemaUtils.createMissingTablesAndColumns(LoginAttemptTable)
+            SchemaUtils.createMissingTablesAndColumns(PasswordResetTable)
+            SchemaUtils.createMissingTablesAndColumns(UserRoleTable)
+            SchemaUtils.createMissingTablesAndColumns(UserSessionTable)
         }
     }
 }
