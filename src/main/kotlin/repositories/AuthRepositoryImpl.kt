@@ -6,6 +6,7 @@ import com.example.exceptions.AuthenticationException
 import com.example.models.AuthRequest
 import com.example.models.AuthResponse
 import com.example.models.RegisterRequest
+import com.example.models.RegisterResponse
 import com.example.service.AuthService
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -18,21 +19,18 @@ class AuthRepositoryImpl(
     private val authService: AuthService
 ) : AuthRepository {
 
-    override suspend fun login(postParam: AuthRequest): AuthResponse<UserEntity> {
+    override suspend fun login(postParam: AuthRequest): AuthResponse {
         val user = userDao.findUserByUsername(postParam.username)
             ?: throw AuthenticationException("Invalid username or password")
 
-        // Validate password
         if (!BCrypt.checkpw(postParam.password, user.passwordHash)) {
             throw AuthenticationException("Invalid password")
         }
 
-        // Generate JWT token
         val token = authService.generateToken(user)
 
         return AuthResponse(
             statusMessage = "Login Successful",
-            data = user,
             error = null,
             tokenAccess = token
         ).copy(error = null).also {
@@ -40,7 +38,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun register(postParam: RegisterRequest): AuthResponse<UserEntity> {
+    override suspend fun register(postParam: RegisterRequest): RegisterResponse {
         if (userDao.findUserByUsername(postParam.username) != null) {
             throw AuthenticationException("Username already exists")
         }
@@ -60,9 +58,9 @@ class AuthRepositoryImpl(
 
         userDao.insertUser(newUser)
 
-        return AuthResponse(
-            statusMessage = "Registration Successful",
-            data = newUser
+        return RegisterResponse(
+            statusMessage = "User registered successfully",
+
         )
     }
 }
