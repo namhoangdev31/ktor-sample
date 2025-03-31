@@ -100,6 +100,7 @@ body {
     color: var(--text-medium);
     text-decoration: none;
     margin-top: auto;
+    gap: 10px !important;
 }
 
 /* Main Content Styles */
@@ -571,51 +572,6 @@ td {
     z-index: 0;
 }
 
-/* Responsive Design */
-@media (min-width: 1024px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-    .col-8, .col-4 {
-        grid-column: span 1;
-    }
-    .header-content{
-        min-width: calc(100vw - 230px) !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .sidebar {
-        width: 70px;
-    }
-    .sidebar-brand span, .menu-item span, .sidebar-footer span{
-        display: none;
-    }
-    .main-content {
-        margin-left: 70px;
-    }
-    .search-container {
-        width: 60%;
-        margin-right: 10px;
-    }
-    .content-auth{
-        margin-left: 70px !important;
-    }
-    .header-content{
-        min-width: calc(100vw - 70px) !important;
-    }
-}
-@media (max-width: 1023px) and (min-width: 768px){
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-    .col-8, .col-4 {
-        grid-column: span 1;
-    }
-    .header-content{
-        min-width: calc(100vw - 230px) !important;
-    }
-}
 .max-width-img-70{
     max-width: 50%;
 }
@@ -659,4 +615,167 @@ td {
     align-items: center;
     padding: 15px 16px;
     background: #FFFFFF;
+}
+
+/* Container for the entire card */
+.sales-overview {
+    margin: 11px 16px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    flex: 3;
+}
+
+/* Heading */
+.sales-overview h2 {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Flex container for the metric columns */
+.overview-cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Each metric card */
+.overview-card {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-right: 1px solid #eee;
+}
+.overview-card:last-child {
+    border-right: none;
+}
+
+/* Icon */
+.overview-card .icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overview-card .row-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row !important;
+    gap: 0.5rem;
+}
+
+/* Main value text (e.g., ₹ 832) */
+.overview-card .value {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Label text (e.g., “Sales”) */
+.overview-card .label {
+    font-size: 10px;
+    color: #777;
+}
+
+.inventory-summary {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin: 11px 16px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+}
+
+.inventory-summary h2{
+    font-size: 1rem !important;
+    color: #333;
+    font-weight: 500;
+    align-items: start;
+}
+
+.inventory-summary .item-summary{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+    img{
+        width: 30px;
+        height: 30px;
+    }
+    h4{
+        text-align: center;
+        font-size: 12px;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+    }
+    p{
+        text-align: center;
+        font-size: 10px;
+        color: #777;
+        font-weight: 400;
+        margin-bottom: 0 !important;
+    }
+    border-right: 1px solid #eee;
+}
+.inventory-summary .item-summary:last-child{
+    border-right: none;
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .col-8, .col-4 {
+        grid-column: span 1;
+    }
+    .header-content{
+        min-width: calc(100vw - 230px) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        width: 70px;
+    }
+    .sidebar-brand span, .menu-item span, .sidebar-footer span{
+        display: none;
+    }
+    .main-content {
+        margin-left: 70px;
+    }
+    .search-container {
+        width: 60%;
+        margin-right: 10px;
+    }
+    .content-auth{
+        margin-left: 70px !important;
+    }
+    .header-content{
+        min-width: calc(100vw - 70px) !important;
+    }
+}
+
+@media (max-width: 1023px) and (min-width: 768px){
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .col-8, .col-4 {
+        grid-column: span 1;
+    }
+    .header-content{
+        min-width: calc(100vw - 230px) !important;
+    }
 }
