@@ -128,20 +128,27 @@
                 </div>
             </div>
         </div>
-        <div class="chart-card">
-            <div class="chart-header">
-                <h2>Sales & Purchase</h2>
-                <button class="time-range-btn">Weekly</button>
-            </div>
+        <div class="flex-column d-flex justify-content-between align-items-start flex-lg-row px-3 gap-3">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>Sales & Purchase</h2>
+                    <button class="time-range-btn">Weekly</button>
+                </div>
 
-            <div class="chart-container">
-                <canvas id="myChart"></canvas>
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" style="flex: 1">
+                <div class="chart-header">
+                    <h2>Order Summary</h2>
+                </div>
             </div>
         </div>
+
     </div>
 </main>
 <script>
-    // Wait until DOM is loaded
     document.addEventListener("DOMContentLoaded", () => {
         if (!sessionStorage.getItem("hasLoaded")) {
             // Check for authentication token
@@ -178,21 +185,18 @@
         </#list>
     ];
 
-    // Purchase data
     const purchaseData = [
         <#list chartData.purchase as val>
         ${val}<#if val_has_next>, </#if>
         </#list>
     ];
 
-    // Sales data
     const salesData = [
         <#list chartData.sales as val>
         ${val}<#if val_has_next>, </#if>
         </#list>
     ];
 
-    // Initialize Chart.js
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'bar',
@@ -217,7 +221,7 @@
         },
         options: {
             responsive: true,
-            aspectRatio: 2,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'top',

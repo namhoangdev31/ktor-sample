@@ -41,7 +41,7 @@ ktor-app/
 │   │   ├── User.kt               # User data model
 │   │   ├── BaseResponse.kt       # Standard response wrapper
 │   ├── dto/
-│   │   ├── UserDTO.kt            # DTO for input validation
+│   │   ├── UserAccountDTO.kt            # DTO for input validation
 │   ├── security/
 │   │   ├── JwtConfig.kt          # JWT configuration for security
 │   ├── database/

@@ -772,6 +772,10 @@ td {
     position: relative;
     margin-top: 20px;
 }
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
 
 
 /* Responsive Design */

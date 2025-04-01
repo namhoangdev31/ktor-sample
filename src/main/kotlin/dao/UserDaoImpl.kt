@@ -2,7 +2,7 @@ package com.example.dao
 
 import com.example.config.DatabaseAuthFactory
 import com.example.config.dbQuery
-import com.example.dto.UserDTO
+import com.example.dto.UserAccountDTO
 import com.example.entity.UserDetailEntity
 import com.example.entity.UserEntity
 import com.example.table.user.UserAccountTable
@@ -13,14 +13,14 @@ import org.jetbrains.exposed.sql.Op
 
 class UserDaoImpl : UserDao {
     override suspend fun findUserByUsername(username: String): UserEntity? = dbQuery(DatabaseAuthFactory.dbAuth) {
-        UserDTO.find { UserAccountTable.username eq username }
+        UserAccountDTO.find { UserAccountTable.username eq username }
             .singleOrNull()?.toUserEntity()
     }
 
     override suspend fun insertUser(user: UserEntity): UserEntity = dbQuery(DatabaseAuthFactory.dbAuth) {
         val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-        val newUser = UserDTO.new {
+        val newUser = UserAccountDTO.new {
             this.uuid = user.uuid
             this.username = user.username
             this.password = user.passwordHash
@@ -32,24 +32,24 @@ class UserDaoImpl : UserDao {
     }
 
     override suspend fun deleteUser(id: Int): Boolean = dbQuery(DatabaseAuthFactory.dbAuth) {
-        UserDTO.findById(id)?.let {
+        UserAccountDTO.findById(id)?.let {
             it.delete()
             true
         } == true
     }
 
     override suspend fun getAll(): List<UserEntity> = dbQuery(DatabaseAuthFactory.dbAuth) {
-        UserDTO.all().map { it.toUserEntity() }
+        UserAccountDTO.all().map { it.toUserEntity() }
     }
 
     override suspend fun getAllWithCondition(condition: (UserAccountTable) -> Op<Boolean>): List<UserEntity> {
-        return UserDTO.find { condition(UserAccountTable) }.map { it.toUserEntity() }
+        return UserAccountDTO.find { condition(UserAccountTable) }.map { it.toUserEntity() }
     }
 
     override suspend fun getUserDetailByMain(username: String): UserDetailEntity? {
         var result: UserDetailEntity? = null
         dbQuery(DatabaseAuthFactory.dbAuth) {
-            val data = UserDTO.find { UserAccountTable.username eq username }
+            val data = UserAccountDTO.find { UserAccountTable.username eq username }
                 .singleOrNull()
                 ?.toUserEntity()
 

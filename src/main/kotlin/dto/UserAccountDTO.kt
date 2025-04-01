@@ -10,8 +10,8 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
-class UserDTO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserDTO>(UserAccountTable)
+class UserAccountDTO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserAccountDTO>(UserAccountTable)
     var uuid by UserAccountTable.uuid
     var username by UserAccountTable.username
     var password by UserAccountTable.passwordHash
