@@ -1,4 +1,3 @@
-
 <header class="navbar header header-content">
     <div class="search-container d-flex align-items-center">
         <i class="fas fa-search search-icon me-2"></i>

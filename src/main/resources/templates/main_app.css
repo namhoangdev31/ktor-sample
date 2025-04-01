@@ -347,12 +347,6 @@ body {
     color: var(--text-light);
 }
 
-/* Chart Styles */
-.chart-container {
-    height: 300px;
-    position: relative;
-}
-
 .chart-legend {
     display: flex;
     justify-content: center;
@@ -615,17 +609,21 @@ td {
     align-items: center;
     padding: 15px 16px;
     background: #FFFFFF;
+    z-index: 999 !important;
+    position: sticky !important;
+    top: 0;
 }
 
 /* Container for the entire card */
 .sales-overview {
-    margin: 11px 16px;
     background: #fff;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-family: sans-serif;
     flex: 3;
+    width: 100%;
+    height: 100%;
 }
 
 /* Heading */
@@ -686,13 +684,13 @@ td {
     display: flex;
     flex: 1;
     justify-content: space-between;
-    align-items: center;
-    margin: 11px 16px;
     background: #fff;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-family: sans-serif;
+    width: 100%;
+    height: 100%;
 }
 
 .inventory-summary h2{
@@ -732,6 +730,49 @@ td {
 .inventory-summary .item-summary:last-child{
     border-right: none;
 }
+
+/* Card Container */
+.chart-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 3;
+    margin: 16px;
+    padding: 20px;
+}
+
+/* Header */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chart-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+/* "Weekly" Button */
+.time-range-btn {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #333;
+}
+.time-range-btn:hover {
+    background-color: #f1f3f5;
+}
+
+/* Chart Styles */
+.chart-container {
+    position: relative;
+    margin-top: 20px;
+}
+
 
 /* Responsive Design */
 @media (min-width: 1024px) {
