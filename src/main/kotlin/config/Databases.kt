@@ -117,6 +117,7 @@ object DatabaseFactory {
             SchemaUtils.createMissingTablesAndColumns(SupplierTable)
             SchemaUtils.createMissingTablesAndColumns(StockTransferTable)
             SchemaUtils.createMissingTablesAndColumns(WarehouseTable)
+            SchemaUtils.createMissingTablesAndColumns(ProductImage)
             // Table for reporting
             SchemaUtils.createMissingTablesAndColumns(AccountingPeriodTable)
             SchemaUtils.createMissingTablesAndColumns(AuditLogTable)
