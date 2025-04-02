@@ -17,4 +17,9 @@ object ProductImageTable: BaseIntIdTable("product_image") {
 	 * Description of the image.
 	 */
 	val description = varchar("description", 255).nullable()
+	
+	/**
+	 * Flag to indicate if the image is the primary image for the product.
+	 */
+	val isPrimary = bool("is_primary").default(false)
 }
