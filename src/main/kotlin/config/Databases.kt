@@ -4,55 +4,13 @@ import com.example.table.inventory_management.*
 import com.example.table.report.*
 import com.example.table.user.*
 import com.example.table.user.RoleTable
-import com.ucasoft.ktor.simpleMemoryCache.*
-import com.ucasoft.ktor.simpleRedisCache.*
-import dev.inmo.krontab.builder.*
-import freemarker.cache.*
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.*
-import io.github.flaxoos.ktor.server.plugins.ratelimiter.implementations.*
-import io.github.flaxoos.ktor.server.plugins.taskscheduling.*
-import io.github.flaxoos.ktor.server.plugins.taskscheduling.managers.lock.database.*
-import io.github.flaxoos.ktor.server.plugins.taskscheduling.managers.lock.redis.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.resources.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import io.ktor.server.engine.*
-import io.ktor.server.freemarker.*
-import io.ktor.server.http.content.*
-import io.ktor.server.plugins.cachingheaders.*
-import io.ktor.server.plugins.callid.*
-import io.ktor.server.plugins.calllogging.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.plugins.csrf.*
-import io.ktor.server.plugins.doublereceive.*
-import io.ktor.server.plugins.httpsredirect.*
-import io.ktor.server.plugins.openapi.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.plugins.swagger.*
-import io.ktor.server.request.*
-import io.ktor.server.resources.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.sessions.*
-import io.ktor.server.sse.*
-import io.ktor.server.webjars.*
-import io.ktor.server.websocket.*
-import io.ktor.sse.*
-import io.ktor.websocket.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
-import org.slf4j.event.*
 
 fun Application.configureDatabases() {
     DatabaseFactory.init(environment)
@@ -117,7 +75,7 @@ object DatabaseFactory {
             SchemaUtils.createMissingTablesAndColumns(SupplierTable)
             SchemaUtils.createMissingTablesAndColumns(StockTransferTable)
             SchemaUtils.createMissingTablesAndColumns(WarehouseTable)
-            SchemaUtils.createMissingTablesAndColumns(ProductImage)
+            SchemaUtils.createMissingTablesAndColumns(ProductImageTable)
             // Table for reporting
             SchemaUtils.createMissingTablesAndColumns(AccountingPeriodTable)
             SchemaUtils.createMissingTablesAndColumns(AuditLogTable)

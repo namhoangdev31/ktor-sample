@@ -16,9 +16,14 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
  * - status: The status of the return order. This is a varchar field with a default value of "pending".
  */
 object ReturnOrderTable : BaseIntIdTable("return_order") {
-    val salesOrderId = integer("sales_order_id").references(SalesOrderTable.id).nullable() // The foreign key referencing the sales order that the return order belongs to.
-    val customerId = integer("customer_id").references(CustomerTable.id).nullable() // The foreign key referencing the customer who made the return order.
-    val returnDate = date("return_date") // The date when the return order was made.
-    val reason = text("reason").nullable() // The reason for the return order. This is a text field.
-    val status = varchar("status", 50).default("pending") // The status of the return order. This is a varchar field with a default value of "pending".
+	val salesOrderId = integer("sales_order_id").references(id)
+		.nullable() // The foreign key referencing the sales order that the return order belongs to.
+	val customerId = integer("customer_id").references(id)
+		.nullable() // The foreign key referencing the customer who made the return order.
+	val returnDate = date("return_date") // The date when the return order was made.
+	val reason = text("reason").nullable() // The reason for the return order. This is a text field.
+	val status = varchar(
+		"status",
+		50
+	).default("pending") // The status of the return order. This is a varchar field with a default value of "pending".
 }

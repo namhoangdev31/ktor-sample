@@ -13,19 +13,18 @@ import com.example.table.BaseIntIdTable
  * - capacity: The capacity of the warehouse, or null if it has no capacity.
  */
 object WarehouseTable : BaseIntIdTable("warehouse") {
-    /**
-     * The foreign key referencing the location of the warehouse.
-     */
-    val locationId = integer("location_id").references(LocationTable.id)
-
-    /**
-     * The name of the warehouse.
-     */
-    val warehouseName = varchar("warehouse_name", 150)
-
-    /**
-     * The capacity of the warehouse, or null if it has no capacity.
-     */
-    val capacity = integer("capacity").nullable()
+	/**
+	 * The foreign key referencing the location of the warehouse.
+	 */
+	val locationId = integer("location_id").references(id)
+	
+	/**
+	 * The name of the warehouse.
+	 */
+	val warehouseName = varchar("warehouse_name", 150)
+	
+	/**
+	 * The capacity of the warehouse, or null if it has no capacity.
+	 */
+	val capacity = integer("capacity").nullable()
 }
-

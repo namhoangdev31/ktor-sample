@@ -10,6 +10,6 @@ import com.example.table.BaseIntIdTable
  * - description: a description of the role, which is optional
  */
 object RoleTable : BaseIntIdTable("role") {
-    val roleName = varchar("role_name", 50).uniqueIndex()
-    val description = varchar("description", 255).nullable()
+	val roleName = varchar("role_name", 50).uniqueIndex()
+	val description = varchar("description", 255).nullable()
 }

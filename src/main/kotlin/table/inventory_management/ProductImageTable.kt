@@ -2,7 +2,7 @@ package com.example.table.inventory_management
 
 import com.example.table.BaseIntIdTable
 
-object ProductImage: BaseIntIdTable("product_image") {
+object ProductImageTable: BaseIntIdTable("product_image") {
 	/**
 	 * Reference to the product that this image belongs to.
 	 */
