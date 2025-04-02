@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <!--Inventory Summary -->
+            <!--InventoryDao Summary -->
             <div class="d-flex flex-column inventory-summary">
                 <h2>Inventory Summary</h2>
                 <div class="d-flex flex-row gap-2">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <!--Inventory Summary -->
+            <!--InventoryDao Summary -->
             <div class="d-flex flex-column inventory-summary">
                 <h2>Product Summary</h2>
                 <div class="d-flex flex-row gap-2">
