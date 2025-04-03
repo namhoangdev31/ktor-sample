@@ -1,6 +1,5 @@
 package com.example.entity
 
-import korlibs.time.DateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,6 +9,6 @@ data class InventoryTransactionEntity(
 	val productId: Int,
 	val warehouseId: Int,
 	val quantity: Int,
-	val transactionDate: DateTime,
+	val transactionDate: String,
 	val createdBy: Int
 )

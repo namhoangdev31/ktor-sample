@@ -8,6 +8,6 @@ data class InventoryEntity(
     val productId: Int,
 	val warehouseId: Int,
 	val quantity: Int,
-	val minimumLevel: Int
+	val minimumLevel: Int,
 	val maximumLevel: Int
 )

@@ -16,7 +16,7 @@ object WarehouseTable : BaseIntIdTable("warehouse") {
 	/**
 	 * The foreign key referencing the location of the warehouse.
 	 */
-	val locationId = integer("location_id").references(id)
+	val locationId = integer("location_id").references(LocationTable.id)
 	
 	/**
 	 * The name of the warehouse.

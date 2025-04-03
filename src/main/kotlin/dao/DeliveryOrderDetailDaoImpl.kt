@@ -1,5 +1,7 @@
 package com.example.dao
 
+import com.example.entity.DeliveryOrderDetailEntity
+
 class DeliveryOrderDetailDaoImpl : DeliveryOrderDetailDao {
 	override suspend fun getAll(): List<DeliveryOrderDetailEntity> {
 		TODO("Not yet implemented")
