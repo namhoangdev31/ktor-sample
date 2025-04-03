@@ -7,7 +7,7 @@ import com.example.models.AuthRequest
 import com.example.models.AuthResponse
 import com.example.models.RegisterRequest
 import com.example.models.RegisterResponse
-import com.example.service.AuthService
+import com.example.services.AuthService
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
