@@ -1,5 +1,5 @@
 # Use the official Kotlin image as the base image
-FROM gradle:7.6.2-jdk17 AS build
+FROM gradle:8.4-jdk21 AS build
 
 # Set the working directory
 WORKDIR /app
