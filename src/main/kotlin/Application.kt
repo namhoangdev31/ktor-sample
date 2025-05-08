@@ -12,7 +12,7 @@ fun Application.module() {
     configureSerialization()
     configureHTTP()
     configureMonitoring()
-//    configureTemplating()
+    configureTemplating()
     configureFrameworks()
     configureSockets()
     configureAdministration()
