@@ -11,7 +11,7 @@ COPY . .
 RUN gradle build -x test
 
 # Use a lightweight JDK image for the runtime
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Set the working directory
 WORKDIR /app

@@ -14,7 +14,7 @@ import java.sql.Connection
 
 fun Application.configureDatabases() {
     DatabaseFactory.init(environment)
-    DatabaseAuthFactory.init(environment)
+//    DatabaseAuthFactory.init(environment)
 }
 
 
