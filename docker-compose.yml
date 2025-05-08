@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      JWT_DOMAIN: "https://jwt-provider-domain/"
+      JWT_AUDIENCE: "jwt-audience"
+      JWT_REALM: "ktor sample app"
+      JWT_ISSUER: "https://jwt-provider-domain/"
+      JWT_SECRET: "your-secret-key"
+      POSTGRES_URL: "jdbc:postgresql://postgres:6543/verceldb?sslmode=require"
+      POSTGRES_USER: "default"
+      POSTGRES_PASSWORD: "yP1LTuYJHsC8"
+      POSTGRES_DB: "postgres"
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+      KAFKA_SCHEMA_REGISTRY_URL: "SCHEMA_REGISTRY_URL"
+      LINE_CHANNEL_SECRET: "YOUR_CHANNEL_SECRET"
+      LINE_CHANNEL_TOKEN: "YOUR_CHANNEL_TOKEN"
+    depends_on:
+      - postgres
+      - kafka
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: "default"
+      POSTGRES_PASSWORD: "yP1LTuYJHsC8"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "6543:5432"
+    networks:
+      - app-network
+
+#  kafka:
+#    image: wurstmeister/kafka:latest
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093
+#      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+#      KAFKA_LISTENERS: INSIDE://kafka:9093
+#      KAFKA_LISTENER_NAME_INSIDE: INSIDE
+#      KAFKA_LISTENER_PORT: 9092
+#      KAFKA_LISTENER_INTERFACE: 0.0.0.0
+#      KAFKA_LISTENER_INTERFACES: INSIDE
+#      KAFKA_LISTENER_MODE: BROKER
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_LISTENER_NAME_INSIDE_PORT: 9092
+#    ports:
+#      - "9092:9092"
+#    networks:
+#      - app-network
+
+#  zookeeper:
+#    image: wurstmeister/zookeeper:latest
+#    ports:
+#      - "2181:2181"
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+    driver: bridge

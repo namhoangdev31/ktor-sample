@@ -73,4 +73,5 @@ dependencies {
     implementation("org.mindrot:jbcrypt:$bycrypt_version")
     implementation("io.ktor:ktor-server-compression")
     implementation("com.auth0:java-jwt:4.5.0")
+//    implementation("io.ktor:ktor-server-plugins")
 }

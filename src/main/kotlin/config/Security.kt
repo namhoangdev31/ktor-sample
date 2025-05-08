@@ -50,14 +50,11 @@ fun Application.configureSecurity() {
 //            client = HttpClient(Apache)
 //        }
 //    }
-    install(CSRF) {
-        allowOrigin("http://localhost:8080")
-        originMatchesHost()
-//        checkHeader("X-CSRF-Token")
-    }
-//    install(Sessions) {
-//        cookie<MySession>("MY_SESSION") {
-//            cookie.extensions["SameSite"] = "lax"
+//    install(CSRF) {
+//        allowOrigin("http://localhost:8080")
+//        originMatchesHost()
+//        onFailure { call ->
+//            respond(HttpStatusCode.Forbidden, "CSRF token validation failed: $call")
 //        }
 //    }
 

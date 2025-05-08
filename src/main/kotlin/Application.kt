@@ -13,10 +13,10 @@ fun Application.module() {
     configureHTTP()
     configureMonitoring()
 //    configureTemplating()
-    configureDatabases()
     configureFrameworks()
     configureSockets()
     configureAdministration()
     configureRouting()
     configureStatic()
+    configureDatabases()
 }
